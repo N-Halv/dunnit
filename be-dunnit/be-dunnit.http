@@ -1,0 +1,6 @@
+@be_dunnit_HostAddress = http://localhost:5235
+
+GET {{be_dunnit_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
