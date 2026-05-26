@@ -7,7 +7,7 @@ import './ConfigProvider.css'
 // Map from frontend origin to backend API prefix.
 // One bundle deployed to many hosts uses this to pick the right backend.
 const apiPrefixByOrigin: Record<string, string> = {
-  'http://localhost:5173': 'http://localhost:5235',
+  'http://localhost:5888': 'http://localhost:5999',
 }
 
 function getApiPrefix(): string {
