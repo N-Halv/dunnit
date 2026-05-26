@@ -4,3 +4,8 @@ GET {{be_dunnit_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{be_dunnit_HostAddress}}/config/
+Accept: application/json
+
+###
