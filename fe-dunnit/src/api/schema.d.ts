@@ -4,22 +4,6 @@
  */
 
 export interface paths {
-    "/weatherforecast": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["GetWeatherForecast"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/config": {
         parameters: {
             query?: never;
@@ -65,15 +49,6 @@ export interface components {
             testValue: null | string;
             env: null | string;
         };
-        WeatherForecast: {
-            /** Format: date */
-            date: string;
-            /** Format: int32 */
-            temperatureC: number | string;
-            summary: null | string;
-            /** Format: int32 */
-            temperatureF?: number | string;
-        };
     };
     responses: never;
     parameters: never;
@@ -82,25 +57,4 @@ export interface components {
     pathItems: never;
 }
 export type $defs = Record<string, never>;
-export interface operations {
-    GetWeatherForecast: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["WeatherForecast"][];
-                };
-            };
-        };
-    };
-}
+export type operations = Record<string, never>;
