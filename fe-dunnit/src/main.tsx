@@ -2,14 +2,12 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-
-
-const config = await fetch('http://localhost:5235/config').then((r) => r.json())
-console.log('testValue:', config.testValue)
-
+import { ConfigProvider } from './features/config/ConfigProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ConfigProvider>
+      <App />
+    </ConfigProvider>
   </StrictMode>,
 )
