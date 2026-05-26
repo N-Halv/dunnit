@@ -1,9 +1,7 @@
 import { createContext, useContext } from 'react'
+import type { components } from '../../api/schema'
 
-export type Config = {
-  testValue: string | null
-  env: string | null
-}
+export type Config = components['schemas']['ConfigResponse']
 
 export const ConfigContext = createContext<Config | null>(null)
 
