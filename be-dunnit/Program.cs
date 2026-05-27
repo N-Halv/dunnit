@@ -1,4 +1,5 @@
 using be_dunnit.Data;
+using be_dunnit.Exceptions;
 using be_dunnit.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +16,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddExceptionHandler<UnauthorizedExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var allowedOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")
@@ -63,6 +67,7 @@ if (app.Environment.IsDevelopment()) {
     db.Database.Migrate();
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
