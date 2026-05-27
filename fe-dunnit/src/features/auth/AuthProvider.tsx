@@ -28,9 +28,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <Auth0Provider
       domain={auth0.domain}
       clientId={auth0.clientId}
+      cacheLocation="localstorage"
+      useRefreshTokens={true}
+      useRefreshTokensFallback={true}
       authorizationParams={{
         redirect_uri: window.location.origin,
         audience: auth0.audience,
+        scope: 'openid email profile offline_access',
       }}
     >
       <AuthGate>{children}</AuthGate>

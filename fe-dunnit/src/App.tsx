@@ -4,12 +4,15 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import { useConfig } from './features/config/ConfigContext'
+import { useAppSelector } from './store/hooks'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
   const config = useConfig()
-  const { user, logout } = useAuth0()
+  const { logout } = useAuth0()
+  // UserProvider guarantees status === 'loaded' by the time App renders.
+  const user = useAppSelector((s) => s.user.user)!
 
   return (
     <>
@@ -22,7 +25,7 @@ function App() {
         <div>
           <h1>Get started</h1>
           <p>
-            Signed in as <code>{user?.email ?? user?.name}</code>{' '}
+            Signed in as <code>{user.email}</code>{' '}
             <button
               type="button"
               onClick={() =>
@@ -32,6 +35,18 @@ function App() {
               Log out
             </button>
           </p>
+          <dl className="user-details">
+            <dt>ID</dt>
+            <dd><code>{user.id}</code></dd>
+            <dt>First name</dt>
+            <dd>{user.firstName ?? <em>(not set)</em>}</dd>
+            <dt>Last name</dt>
+            <dd>{user.lastName ?? <em>(not set)</em>}</dd>
+            <dt>Created</dt>
+            <dd>{new Date(user.createdAt).toLocaleString()}</dd>
+            <dt>Updated</dt>
+            <dd>{new Date(user.updatedAt).toLocaleString()}</dd>
+          </dl>
           <p>
             Env: <code>{config.env}</code>
           </p>
