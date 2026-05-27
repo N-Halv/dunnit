@@ -18,3 +18,9 @@ We keep `/fe-dunnit/src/api/schema.d.ts` up to date the latest type definitions 
 ```
 npm run gen:api
 ```
+
+
+## TODOs
+
+### DB
+Demo decissions: I'm running SQLite in this process which I wouldn't want to do in a production environment.
