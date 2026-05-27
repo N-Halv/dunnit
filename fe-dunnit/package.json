@@ -11,6 +11,7 @@
     "gen:api": "dotnet build ../be-dunnit -nologo --verbosity quiet --no-incremental && openapi-typescript ../be-dunnit/be-dunnit.json -o ./src/api/schema.d.ts"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.17.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

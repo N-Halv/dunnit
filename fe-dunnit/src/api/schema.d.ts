@@ -45,9 +45,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        Auth0Config: {
+            domain: string;
+            clientId: string;
+            audience: string;
+        };
         ConfigResponse: {
             testValue: null | string;
             env: null | string;
+            auth0: components["schemas"]["Auth0Config"];
         };
     };
     responses: never;

@@ -1,10 +1,12 @@
 using be_dunnit.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace be_dunnit.Controllers;
 
 [ApiController]
 [Route("config")]
+[AllowAnonymous]
 public class ConfigController : ControllerBase
 {
     private readonly IConfiguration _configuration;
@@ -17,5 +19,9 @@ public class ConfigController : ControllerBase
     [HttpGet]
     public ConfigResponse Get() => new(
         _configuration["TestValue"],
-        _configuration["Env"]);
+        _configuration["Env"],
+        new Auth0Config(
+            _configuration["Auth0:Domain"] ?? string.Empty,
+            _configuration["Auth0:ClientId"] ?? string.Empty,
+            _configuration["Auth0:Audience"] ?? string.Empty));
 }

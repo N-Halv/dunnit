@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -8,6 +9,7 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
   const config = useConfig()
+  const { user, logout } = useAuth0()
 
   return (
     <>
@@ -19,6 +21,17 @@ function App() {
         </div>
         <div>
           <h1>Get started</h1>
+          <p>
+            Signed in as <code>{user?.email ?? user?.name}</code>{' '}
+            <button
+              type="button"
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+            >
+              Log out
+            </button>
+          </p>
           <p>
             Env: <code>{config.env}</code>
           </p>

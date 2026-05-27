@@ -15,7 +15,6 @@ Dunnit is a monorepo appliation that includes
 We use OpenAPI to sync types so we are confident that our frontend is using types that our backend is actually using.
 
 We keep `/fe-dunnit/src/api/schema.d.ts` up to date the latest type definitions by running the following command from the `/fe-dunnit` directory.
-
 ```
 npm run gen:api
 ```
