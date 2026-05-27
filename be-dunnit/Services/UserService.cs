@@ -8,8 +8,6 @@ public interface IUserService
 {
     Task<User> GetOrCreateByEmailAsync(
         string email,
-        string? firstName,
-        string? lastName,
         CancellationToken cancellationToken);
 }
 
@@ -24,8 +22,6 @@ public class UserService : IUserService
 
     public async Task<User> GetOrCreateByEmailAsync(
         string email,
-        string? firstName,
-        string? lastName,
         CancellationToken cancellationToken)
     {
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
@@ -38,8 +34,6 @@ public class UserService : IUserService
         {
             Id = Guid.NewGuid(),
             Email = email,
-            FirstName = firstName,
-            LastName = lastName,
         };
         _db.Users.Add(user);
         await _db.SaveChangesAsync(cancellationToken);

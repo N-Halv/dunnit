@@ -38,10 +38,6 @@ function App() {
           <dl className="user-details">
             <dt>ID</dt>
             <dd><code>{user.id}</code></dd>
-            <dt>First name</dt>
-            <dd>{user.firstName ?? <em>(not set)</em>}</dd>
-            <dt>Last name</dt>
-            <dd>{user.lastName ?? <em>(not set)</em>}</dd>
             <dt>Created</dt>
             <dd>{new Date(user.createdAt).toLocaleString()}</dd>
             <dt>Updated</dt>

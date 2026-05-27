@@ -17,8 +17,6 @@ namespace be_dunnit.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", maxLength: 320, nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: true)

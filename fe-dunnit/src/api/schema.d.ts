@@ -96,8 +96,6 @@ export interface components {
             /** Format: uuid */
             id: string;
             email: string;
-            firstName: null | string;
-            lastName: null | string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */

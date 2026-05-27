@@ -25,16 +25,11 @@ public class UsersController : ControllerBase
             return Unauthorized(new { error = "JWT does not contain an email claim." });
         }
 
-        var firstName = User.FindFirstValue(ClaimTypes.GivenName);
-        var lastName = User.FindFirstValue(ClaimTypes.Surname);
-
-        var user = await _userService.GetOrCreateByEmailAsync(email, firstName, lastName, cancellationToken);
+        var user = await _userService.GetOrCreateByEmailAsync(email, cancellationToken);
 
         return new UserResponse(
             user.Id,
             user.Email,
-            user.FirstName,
-            user.LastName,
             user.CreatedAt,
             user.UpdatedAt);
     }
