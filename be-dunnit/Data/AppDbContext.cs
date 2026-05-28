@@ -11,11 +11,13 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
 
+    public DbSet<TodoList> Lists => Set<TodoList>();
+
+    public DbSet<TodoItem> Items => Set<TodoItem>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var user = modelBuilder.Entity<User>();
-        user.HasIndex(u => u.Email).IsUnique();
-        user.HasQueryFilter(u => u.DeletedAt == null);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 
     public override int SaveChanges()
@@ -33,7 +35,7 @@ public class AppDbContext : DbContext
     private void StampTimestamps()
     {
         var now = DateTimeOffset.UtcNow;
-        foreach (var entry in ChangeTracker.Entries<User>())
+        foreach (var entry in ChangeTracker.Entries<ITimestamped>())
         {
             if (entry.State == EntityState.Added)
             {

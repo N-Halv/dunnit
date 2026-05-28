@@ -24,3 +24,8 @@ npm run gen:api
 
 ### DB
 Demo decissions: I'm running SQLite in this process which I wouldn't want to do in a production environment.
+
+### Features I want to build
+Normalize sort order every once in a while
+Change history
+Shared lists

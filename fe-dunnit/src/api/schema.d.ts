@@ -41,6 +41,406 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lists/{listId}/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    listId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ItemResponse"][];
+                        "application/json": components["schemas"]["ItemResponse"][];
+                        "text/json": components["schemas"]["ItemResponse"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    listId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CreateItemRequest"];
+                    "text/json": components["schemas"]["CreateItemRequest"];
+                    "application/*+json": components["schemas"]["CreateItemRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ItemResponse"];
+                        "application/json": components["schemas"]["ItemResponse"];
+                        "text/json": components["schemas"]["ItemResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/lists/{listId}/items/{itemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    listId: string;
+                    itemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ItemResponse"];
+                        "application/json": components["schemas"]["ItemResponse"];
+                        "text/json": components["schemas"]["ItemResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    listId: string;
+                    itemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    listId: string;
+                    itemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpdateItemRequest"];
+                    "text/json": components["schemas"]["UpdateItemRequest"];
+                    "application/*+json": components["schemas"]["UpdateItemRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ItemResponse"];
+                        "application/json": components["schemas"]["ItemResponse"];
+                        "text/json": components["schemas"]["ItemResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/lists/{listId}/items/{itemId}/position": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    listId: string;
+                    itemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpdateItemPositionRequest"];
+                    "text/json": components["schemas"]["UpdateItemPositionRequest"];
+                    "application/*+json": components["schemas"]["UpdateItemPositionRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ItemResponse"];
+                        "application/json": components["schemas"]["ItemResponse"];
+                        "text/json": components["schemas"]["ItemResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/lists": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ListResponse"][];
+                        "application/json": components["schemas"]["ListResponse"][];
+                        "text/json": components["schemas"]["ListResponse"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CreateListRequest"];
+                    "text/json": components["schemas"]["CreateListRequest"];
+                    "application/*+json": components["schemas"]["CreateListRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ListResponse"];
+                        "application/json": components["schemas"]["ListResponse"];
+                        "text/json": components["schemas"]["ListResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/lists/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ListResponse"];
+                        "application/json": components["schemas"]["ListResponse"];
+                        "text/json": components["schemas"]["ListResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpdateListRequest"];
+                    "text/json": components["schemas"]["UpdateListRequest"];
+                    "application/*+json": components["schemas"]["UpdateListRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ListResponse"];
+                        "application/json": components["schemas"]["ListResponse"];
+                        "text/json": components["schemas"]["ListResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/lists/{id}/position": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpdateListPositionRequest"];
+                    "text/json": components["schemas"]["UpdateListPositionRequest"];
+                    "application/*+json": components["schemas"]["UpdateListPositionRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ListResponse"];
+                        "application/json": components["schemas"]["ListResponse"];
+                        "text/json": components["schemas"]["ListResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/users/me": {
         parameters: {
             query?: never;
@@ -91,6 +491,55 @@ export interface components {
             testValue: null | string;
             env: null | string;
             auth0: components["schemas"]["Auth0Config"];
+        };
+        CreateItemRequest: {
+            title: string;
+            description: null | string;
+        };
+        CreateListRequest: {
+            name: string;
+        };
+        ItemResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            listId: string;
+            title: string;
+            description: null | string;
+            /** Format: double */
+            sortOrder: number | string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ListResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            creatorUserId: string;
+            name: string;
+            /** Format: double */
+            sortOrder: number | string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        UpdateItemPositionRequest: {
+            /** Format: uuid */
+            precedingItemId: null | string;
+        };
+        UpdateItemRequest: {
+            title: string;
+            description: null | string;
+        };
+        UpdateListPositionRequest: {
+            /** Format: uuid */
+            precedingListId: null | string;
+        };
+        UpdateListRequest: {
+            name: string;
         };
         UserResponse: {
             /** Format: uuid */

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using be_dunnit.Data;
 
@@ -10,9 +11,11 @@ using be_dunnit.Data;
 namespace be_dunnit.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260528162454_AddListsAndItems")]
+    partial class AddListsAndItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.8");
@@ -51,7 +54,7 @@ namespace be_dunnit.Migrations
 
                     b.HasIndex("ListId", "SortOrder");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("be_dunnit.Models.TodoList", b =>
@@ -84,7 +87,7 @@ namespace be_dunnit.Migrations
 
                     b.HasIndex("CreatorUserId", "SortOrder");
 
-                    b.ToTable("Lists", (string)null);
+                    b.ToTable("Lists");
                 });
 
             modelBuilder.Entity("be_dunnit.Models.User", b =>
@@ -112,7 +115,7 @@ namespace be_dunnit.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("be_dunnit.Models.TodoItem", b =>
