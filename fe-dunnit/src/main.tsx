@@ -9,6 +9,7 @@ import App from './App.tsx'
 import { ConfigProvider } from './features/config/ConfigProvider.tsx'
 import { AuthProvider } from './features/auth/AuthProvider.tsx'
 import { UserProvider } from './features/user/UserProvider.tsx'
+import { ConfirmProvider } from './features/ui/ConfirmProvider.tsx'
 import { store } from './store/store.ts'
 import { theme } from './theme/theme.ts'
 
@@ -17,15 +18,17 @@ createRoot(document.getElementById('root')!).render(
     <ReduxProvider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <BrowserRouter>
-          <ConfigProvider>
-            <AuthProvider>
-              <UserProvider>
-                <App />
-              </UserProvider>
-            </AuthProvider>
-          </ConfigProvider>
-        </BrowserRouter>
+        <ConfirmProvider>
+          <BrowserRouter>
+            <ConfigProvider>
+              <AuthProvider>
+                <UserProvider>
+                  <App />
+                </UserProvider>
+              </AuthProvider>
+            </ConfigProvider>
+          </BrowserRouter>
+        </ConfirmProvider>
       </ThemeProvider>
     </ReduxProvider>
   </StrictMode>,

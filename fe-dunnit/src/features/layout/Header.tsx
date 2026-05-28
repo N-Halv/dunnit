@@ -1,10 +1,6 @@
-import { useState } from 'react'
 import {
   AppBar,
-  Divider,
   IconButton,
-  Menu,
-  MenuItem,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -15,6 +11,7 @@ import ViewListIcon from '@mui/icons-material/ViewList'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useMatch, useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../store/hooks'
+import { IconMenu } from '../ui/IconMenu'
 
 export function Header() {
   const navigate = useNavigate()
@@ -23,9 +20,6 @@ export function Header() {
   const isItemsRoute = Boolean(useMatch('/lists/:id'))
   const userState = useAppSelector((s) => s.user)
   const { logout } = useAuth0()
-
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-  const isMenuOpen = Boolean(anchorEl)
 
   const showSettings = userState.status === 'loaded'
   const showListsToggle = showSettings && isMobile && isItemsRoute
@@ -47,34 +41,18 @@ export function Header() {
         )}
 
         {showSettings && (
-          <>
-            <IconButton
-              aria-label="Settings"
-              aria-haspopup="menu"
-              aria-expanded={isMenuOpen ? 'true' : undefined}
-              onClick={(e) => setAnchorEl(e.currentTarget)}
-            >
-              <SettingsIcon fontSize="small" />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={isMenuOpen}
-              onClose={() => setAnchorEl(null)}
-            >
-              <MenuItem disabled>
-                Logged in as {userState.user.email}
-              </MenuItem>
-              <Divider />
-              <MenuItem
-                onClick={() => {
-                  setAnchorEl(null)
-                  logout({ logoutParams: { returnTo: window.location.origin } })
-                }}
-              >
-                Logout
-              </MenuItem>
-            </Menu>
-          </>
+          <IconMenu
+            ariaLabel="Settings"
+            icon={<SettingsIcon fontSize="small" />}
+            items={[
+              { content: `Logged in as ${userState.user.email}` },
+              {
+                content: 'Logout',
+                action: () =>
+                  logout({ logoutParams: { returnTo: window.location.origin } }),
+              },
+            ]}
+          />
         )}
       </Toolbar>
     </AppBar>
