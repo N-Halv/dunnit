@@ -1,32 +1,33 @@
-import { useEffect, useRef, useState } from 'react'
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   CircularProgress,
   IconButton,
   ListItemButton,
   ListItemText,
   TextField,
-} from '@mui/material'
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { useNavigate } from 'react-router-dom'
-import type { ListEntity } from './listsSlice'
-import { IconMenu } from '../ui/IconMenu'
+} from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { IconMenu } from '../ui/IconMenu';
+import type { ListEntity } from './listsSlice';
 
 type Props = {
-  list: ListEntity
-  selected: boolean
-  onRequestDelete: () => void
-  onRename: (name: string) => Promise<unknown>
-}
+  list: ListEntity;
+  selected: boolean;
+  onRequestDelete: () => void;
+  onRename: (name: string) => Promise<unknown>;
+};
 
 export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
-  const navigate = useNavigate()
-  const [editing, setEditing] = useState(false)
-  const [draft, setDraft] = useState(list.name)
-  const [saving, setSaving] = useState(false)
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const navigate = useNavigate();
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(list.name);
+  const [saving, setSaving] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     attributes,
@@ -35,48 +36,48 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: list.id })
+  } = useSortable({ id: list.id });
 
   // Runtime drag positioning is library-driven, not a design token — inline is unavoidable.
   const dragStyle = {
     transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? 0.6 : 1,
-  }
+  };
 
   useEffect(() => {
     if (editing) {
       const id = window.setTimeout(() => {
-        inputRef.current?.focus()
-        inputRef.current?.select()
-      }, 0)
-      return () => window.clearTimeout(id)
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }, 0);
+      return () => window.clearTimeout(id);
     }
-  }, [editing])
+  }, [editing]);
 
   function commit() {
-    const trimmed = draft.trim()
+    const trimmed = draft.trim();
     if (trimmed === '') {
       // Stay in edit mode; refocus the input.
-      inputRef.current?.focus()
-      return
+      inputRef.current?.focus();
+      return;
     }
     if (trimmed === list.name) {
-      setEditing(false)
-      return
+      setEditing(false);
+      return;
     }
-    setEditing(false)
-    setSaving(true)
+    setEditing(false);
+    setSaving(true);
     onRename(trimmed)
       .catch(() => {
-        setDraft(list.name)
+        setDraft(list.name);
       })
-      .finally(() => setSaving(false))
+      .finally(() => setSaving(false));
   }
 
   function cancel() {
-    setDraft(list.name)
-    setEditing(false)
+    setDraft(list.name);
+    setEditing(false);
   }
 
   return (
@@ -86,8 +87,8 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
         selected={selected}
         disableRipple={editing}
         onClick={() => {
-          if (editing) return
-          navigate(`/lists/${list.id}`)
+          if (editing) return;
+          navigate(`/lists/${list.id}`);
         }}
         {...attributes}
       >
@@ -108,11 +109,11 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
             onBlur={commit}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                e.preventDefault()
-                commit()
+                e.preventDefault();
+                commit();
               } else if (e.key === 'Escape') {
-                e.preventDefault()
-                cancel()
+                e.preventDefault();
+                cancel();
               }
             }}
             onClick={(e) => e.stopPropagation()}
@@ -134,8 +135,8 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
             {
               content: 'Edit',
               action: () => {
-                setDraft(list.name)
-                setEditing(true)
+                setDraft(list.name);
+                setEditing(true);
               },
             },
             { content: 'Delete', action: onRequestDelete },
@@ -143,5 +144,5 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
         />
       </ListItemButton>
     </div>
-  )
+  );
 }

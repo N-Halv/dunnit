@@ -1,3 +1,18 @@
+import type { DragEndEvent } from '@dnd-kit/core';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import {
   Box,
   List,
@@ -5,55 +20,41 @@ import {
   ListItemText,
   Skeleton,
   Typography,
-} from '@mui/material'
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import {
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import type { DragEndEvent } from '@dnd-kit/core'
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import { useParams } from 'react-router-dom'
-import { useLists } from './useLists'
-import { ListRow } from './ListRow'
-import { NewListRow } from './NewListRow'
-import { useConfirm } from '../ui/ConfirmContext'
+} from '@mui/material';
+import { useParams } from 'react-router-dom';
+
+import { useConfirm } from '../ui/ConfirmContext';
+import { ListRow } from './ListRow';
+import { NewListRow } from './NewListRow';
+import { useLists } from './useLists';
 
 export function ListsPane() {
-  const { id: selectedListId } = useParams<{ id: string }>()
-  const { state, createList, updateList, deleteList, reorderList } = useLists()
-  const confirm = useConfirm()
+  const { id: selectedListId } = useParams<{ id: string }>();
+  const { state, createList, updateList, deleteList, reorderList } = useLists();
+  const confirm = useConfirm();
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
-  )
+  );
 
   function handleDragEnd(e: DragEndEvent) {
-    const { active, over } = e
-    if (!over || active.id === over.id || state.status !== 'loaded') return
-    const oldIdx = state.lists.findIndex((l) => l.id === active.id)
-    const newIdx = state.lists.findIndex((l) => l.id === over.id)
-    if (oldIdx < 0 || newIdx < 0) return
-    const next = [...state.lists]
-    const [moved] = next.splice(oldIdx, 1)
-    next.splice(newIdx, 0, moved)
+    const { active, over } = e;
+    if (!over || active.id === over.id || state.status !== 'loaded') return;
+    const oldIdx = state.lists.findIndex((l) => l.id === active.id);
+    const newIdx = state.lists.findIndex((l) => l.id === over.id);
+    if (oldIdx < 0 || newIdx < 0) return;
+    const next = [...state.lists];
+    const [moved] = next.splice(oldIdx, 1);
+    next.splice(newIdx, 0, moved);
     reorderList(
       next.map((l) => l.id),
       String(active.id),
     ).catch(() => {
       // Reorder reverts on next refresh; nothing UI-visible to do here.
-    })
+    });
   }
 
   return (
@@ -91,9 +92,9 @@ export function ListsPane() {
                       title: 'Delete this list?',
                       text: `"${list.name}" and all of its items will be deleted. This can't be undone.`,
                       destructive: true,
-                    })
+                    });
                     if (ok) {
-                      await deleteList(list.id).catch(() => {})
+                      await deleteList(list.id).catch(() => {});
                     }
                   }}
                   onRename={(name) => updateList(list.id, name)}
@@ -105,7 +106,7 @@ export function ListsPane() {
         </DndContext>
       )}
     </Box>
-  )
+  );
 }
 
 function ListsSkeleton() {
@@ -122,5 +123,5 @@ function ListsSkeleton() {
         </ListItemButton>
       ))}
     </List>
-  )
+  );
 }

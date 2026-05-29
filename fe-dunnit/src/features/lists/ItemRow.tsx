@@ -1,4 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Box,
   Checkbox,
@@ -7,22 +11,19 @@ import {
   ListItemButton,
   TextField,
   Typography,
-} from '@mui/material'
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import ExpandLessIcon from '@mui/icons-material/ExpandLess'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import type { ItemEntity } from './itemsSlice'
-import { useConfirm } from '../ui/ConfirmContext'
+} from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+
+import { useConfirm } from '../ui/ConfirmContext';
+import type { ItemEntity } from './itemsSlice';
 
 type Props = {
-  item: ItemEntity
-  onRename: (title: string) => Promise<unknown>
-  onUpdateDescription: (description: string | null) => Promise<unknown>
-  onToggleCompleted: (completed: boolean) => Promise<unknown>
-  onDelete: () => Promise<unknown>
-}
+  item: ItemEntity;
+  onRename: (title: string) => Promise<unknown>;
+  onUpdateDescription: (description: string | null) => Promise<unknown>;
+  onToggleCompleted: (completed: boolean) => Promise<unknown>;
+  onDelete: () => Promise<unknown>;
+};
 
 export function ItemRow({
   item,
@@ -31,15 +32,15 @@ export function ItemRow({
   onToggleCompleted,
   onDelete,
 }: Props) {
-  const confirm = useConfirm()
-  const [editingTitle, setEditingTitle] = useState(false)
-  const [draftTitle, setDraftTitle] = useState(item.title)
-  const [editingDesc, setEditingDesc] = useState(false)
-  const [draftDesc, setDraftDesc] = useState(item.description ?? '')
-  const [expanded, setExpanded] = useState(false)
-  const [saving, setSaving] = useState(false)
-  const titleRef = useRef<HTMLInputElement | null>(null)
-  const descRef = useRef<HTMLTextAreaElement | null>(null)
+  const confirm = useConfirm();
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [draftTitle, setDraftTitle] = useState(item.title);
+  const [editingDesc, setEditingDesc] = useState(false);
+  const [draftDesc, setDraftDesc] = useState(item.description ?? '');
+  const [expanded, setExpanded] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const titleRef = useRef<HTMLInputElement | null>(null);
+  const descRef = useRef<HTMLTextAreaElement | null>(null);
 
   const {
     attributes,
@@ -48,60 +49,60 @@ export function ItemRow({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: item.id })
+  } = useSortable({ id: item.id });
 
   // Runtime drag positioning is library-driven, not a design token — inline is unavoidable.
   const dragStyle = {
     transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? 0.6 : 1,
-  }
+  };
 
   useEffect(() => {
     if (editingTitle) {
       const id = window.setTimeout(() => {
-        titleRef.current?.focus()
-        titleRef.current?.select()
-      }, 0)
-      return () => window.clearTimeout(id)
+        titleRef.current?.focus();
+        titleRef.current?.select();
+      }, 0);
+      return () => window.clearTimeout(id);
     }
-  }, [editingTitle])
+  }, [editingTitle]);
 
   useEffect(() => {
     if (editingDesc) {
-      const id = window.setTimeout(() => descRef.current?.focus(), 0)
-      return () => window.clearTimeout(id)
+      const id = window.setTimeout(() => descRef.current?.focus(), 0);
+      return () => window.clearTimeout(id);
     }
-  }, [editingDesc])
+  }, [editingDesc]);
 
   function commitTitle() {
-    const trimmed = draftTitle.trim()
+    const trimmed = draftTitle.trim();
     if (trimmed === '') {
-      titleRef.current?.focus()
-      return
+      titleRef.current?.focus();
+      return;
     }
     if (trimmed === item.title) {
-      setEditingTitle(false)
-      return
+      setEditingTitle(false);
+      return;
     }
-    setEditingTitle(false)
-    setSaving(true)
+    setEditingTitle(false);
+    setSaving(true);
     onRename(trimmed)
       .catch(() => setDraftTitle(item.title))
-      .finally(() => setSaving(false))
+      .finally(() => setSaving(false));
   }
 
   function commitDesc() {
-    const current = item.description ?? ''
+    const current = item.description ?? '';
     if (draftDesc === current) {
-      setEditingDesc(false)
-      return
+      setEditingDesc(false);
+      return;
     }
-    setEditingDesc(false)
-    setSaving(true)
+    setEditingDesc(false);
+    setSaving(true);
     onUpdateDescription(draftDesc === '' ? null : draftDesc)
       .catch(() => setDraftDesc(item.description ?? ''))
-      .finally(() => setSaving(false))
+      .finally(() => setSaving(false));
   }
 
   async function handleDelete() {
@@ -109,14 +110,14 @@ export function ItemRow({
       title: 'Delete this item?',
       text: `"${item.title}" will be deleted. This can't be undone.`,
       destructive: true,
-    })
-    if (!ok) return
-    setSaving(true)
+    });
+    if (!ok) return;
+    setSaving(true);
     try {
-      await onDelete()
+      await onDelete();
       // Row unmounts on success, so no need to clear saving.
     } catch {
-      setSaving(false)
+      setSaving(false);
     }
   }
 
@@ -136,8 +137,8 @@ export function ItemRow({
           size="small"
           checked={item.completed}
           onChange={(e) => {
-            setSaving(true)
-            onToggleCompleted(e.target.checked).finally(() => setSaving(false))
+            setSaving(true);
+            onToggleCompleted(e.target.checked).finally(() => setSaving(false));
           }}
         />
 
@@ -149,12 +150,12 @@ export function ItemRow({
             onBlur={commitTitle}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                e.preventDefault()
-                commitTitle()
+                e.preventDefault();
+                commitTitle();
               } else if (e.key === 'Escape') {
-                e.preventDefault()
-                setDraftTitle(item.title)
-                setEditingTitle(false)
+                e.preventDefault();
+                setDraftTitle(item.title);
+                setEditingTitle(false);
               }
             }}
             size="small"
@@ -164,8 +165,8 @@ export function ItemRow({
           <Typography
             className="dunnit-item-title"
             onClick={() => {
-              setDraftTitle(item.title)
-              setEditingTitle(true)
+              setDraftTitle(item.title);
+              setEditingTitle(true);
             }}
           >
             {item.title}
@@ -211,8 +212,8 @@ export function ItemRow({
                   : 'dunnit-item-description dunnit-item-description--empty'
               }
               onClick={() => {
-                setDraftDesc(item.description ?? '')
-                setEditingDesc(true)
+                setDraftDesc(item.description ?? '');
+                setEditingDesc(true);
               }}
             >
               {item.description ?? 'Add a description...'}
@@ -228,5 +229,5 @@ export function ItemRow({
         </Box>
       )}
     </Box>
-  )
+  );
 }

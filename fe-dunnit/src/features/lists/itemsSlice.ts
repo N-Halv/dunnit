@@ -1,30 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import type { components } from '../../api/schema'
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-export type ItemEntity = components['schemas']['ItemResponse']
+import type { components } from '../../api/schema';
+
+export type ItemEntity = components['schemas']['ItemResponse'];
 
 export type ItemsForList =
   | { status: 'idle'; items: []; error: null }
   | { status: 'loading'; items: []; error: null }
   | { status: 'loaded'; items: ItemEntity[]; error: null }
-  | { status: 'error'; items: []; error: string }
+  | { status: 'error'; items: []; error: string };
 
 export type ItemsState = {
-  byList: Record<string, ItemsForList>
-}
+  byList: Record<string, ItemsForList>;
+};
 
-const initialState: ItemsState = { byList: {} }
+const initialState: ItemsState = { byList: {} };
 
 // Backend may serialize the double as a number or a string; normalize for sort.
 function toNumber(value: number | string): number {
-  return typeof value === 'number' ? value : parseFloat(value)
+  return typeof value === 'number' ? value : parseFloat(value);
 }
 
 function sortBySortOrder(items: ItemEntity[]): ItemEntity[] {
   return [...items].sort(
     (a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder),
-  )
+  );
 }
 
 const itemsSlice = createSlice({
@@ -36,7 +37,7 @@ const itemsSlice = createSlice({
         status: 'loading',
         items: [],
         error: null,
-      }
+      };
     },
     itemsLoaded(
       state,
@@ -46,7 +47,7 @@ const itemsSlice = createSlice({
         status: 'loaded',
         items: sortBySortOrder(action.payload.items),
         error: null,
-      }
+      };
     },
     itemsError(
       state,
@@ -56,45 +57,45 @@ const itemsSlice = createSlice({
         status: 'error',
         items: [],
         error: action.payload.error,
-      }
+      };
     },
     itemAdded(state, action: PayloadAction<ItemEntity>) {
-      const slot = state.byList[action.payload.listId]
-      if (!slot || slot.status !== 'loaded') return
-      slot.items.push(action.payload)
-      slot.items = sortBySortOrder(slot.items)
+      const slot = state.byList[action.payload.listId];
+      if (!slot || slot.status !== 'loaded') return;
+      slot.items.push(action.payload);
+      slot.items = sortBySortOrder(slot.items);
     },
     itemUpdated(state, action: PayloadAction<ItemEntity>) {
-      const slot = state.byList[action.payload.listId]
-      if (!slot || slot.status !== 'loaded') return
-      const idx = slot.items.findIndex((i) => i.id === action.payload.id)
+      const slot = state.byList[action.payload.listId];
+      if (!slot || slot.status !== 'loaded') return;
+      const idx = slot.items.findIndex((i) => i.id === action.payload.id);
       if (idx >= 0) {
-        slot.items[idx] = action.payload
-        slot.items = sortBySortOrder(slot.items)
+        slot.items[idx] = action.payload;
+        slot.items = sortBySortOrder(slot.items);
       }
     },
     itemDeleted(
       state,
       action: PayloadAction<{ listId: string; itemId: string }>,
     ) {
-      const slot = state.byList[action.payload.listId]
-      if (!slot || slot.status !== 'loaded') return
-      slot.items = slot.items.filter((i) => i.id !== action.payload.itemId)
+      const slot = state.byList[action.payload.listId];
+      if (!slot || slot.status !== 'loaded') return;
+      slot.items = slot.items.filter((i) => i.id !== action.payload.itemId);
     },
     // Used by drag-and-drop to apply an optimistic reorder before the API call resolves.
     itemsReorderedLocal(
       state,
       action: PayloadAction<{ listId: string; orderedIds: string[] }>,
     ) {
-      const slot = state.byList[action.payload.listId]
-      if (!slot || slot.status !== 'loaded') return
-      const byId = new Map(slot.items.map((i) => [i.id, i]))
+      const slot = state.byList[action.payload.listId];
+      if (!slot || slot.status !== 'loaded') return;
+      const byId = new Map(slot.items.map((i) => [i.id, i]));
       slot.items = action.payload.orderedIds
         .map((id) => byId.get(id))
-        .filter((i): i is ItemEntity => i !== undefined)
+        .filter((i): i is ItemEntity => i !== undefined);
     },
   },
-})
+});
 
 export const {
   itemsLoading,
@@ -104,6 +105,6 @@ export const {
   itemUpdated,
   itemDeleted,
   itemsReorderedLocal,
-} = itemsSlice.actions
+} = itemsSlice.actions;
 
-export const itemsReducer = itemsSlice.reducer
+export const itemsReducer = itemsSlice.reducer;

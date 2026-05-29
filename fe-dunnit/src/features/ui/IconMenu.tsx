@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import type { MouseEvent, ReactNode } from 'react'
-import { IconButton, Menu, MenuItem } from '@mui/material'
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import type { MouseEvent, ReactNode } from 'react';
+import { useState } from 'react';
 
 export type IconMenuItem = {
-  content: ReactNode
-  action?: () => void
-}
+  content: ReactNode;
+  action?: () => void;
+};
 
 type Props = {
-  icon: ReactNode
-  items: IconMenuItem[]
-  ariaLabel?: string
-}
+  icon: ReactNode;
+  items: IconMenuItem[];
+  ariaLabel?: string;
+};
 
 export function IconMenu({ icon, items, ariaLabel = 'Open menu' }: Props) {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-  const open = Boolean(anchorEl)
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const open = Boolean(anchorEl);
 
   function handleTriggerClick(e: MouseEvent<HTMLButtonElement>) {
     // Don't bubble — common when the menu lives inside a clickable row.
-    e.stopPropagation()
-    setAnchorEl(e.currentTarget)
+    e.stopPropagation();
+    setAnchorEl(e.currentTarget);
   }
 
   return (
@@ -40,8 +40,8 @@ export function IconMenu({ icon, items, ariaLabel = 'Open menu' }: Props) {
             key={idx}
             disabled={!item.action}
             onClick={() => {
-              setAnchorEl(null)
-              item.action?.()
+              setAnchorEl(null);
+              item.action?.();
             }}
           >
             {item.content}
@@ -49,5 +49,5 @@ export function IconMenu({ icon, items, ariaLabel = 'Open menu' }: Props) {
         ))}
       </Menu>
     </>
-  )
+  );
 }

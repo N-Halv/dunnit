@@ -1,14 +1,15 @@
-import { createContext, useContext } from 'react'
-import type { components } from '../../api/schema'
+import { createContext, useContext } from 'react';
 
-export type Config = components['schemas']['ConfigResponse']
+import type { components } from '../../api/schema';
 
-export const ConfigContext = createContext<Config | null>(null)
+export type Config = components['schemas']['ConfigResponse'];
+
+export const ConfigContext = createContext<Config | null>(null);
 
 export function useConfig(): Config {
-  const config = useContext(ConfigContext)
+  const config = useContext(ConfigContext);
   if (config === null) {
-    throw new Error('useConfig must be used inside <ConfigProvider>')
+    throw new Error('useConfig must be used inside <ConfigProvider>');
   }
-  return config
+  return config;
 }

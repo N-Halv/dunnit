@@ -1,43 +1,44 @@
-import { useEffect, useState } from 'react'
-import type { ReactNode } from 'react'
-import { useApi, UnauthorizedError } from '../auth/useApi'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { userError, userLoaded, userLoading } from './userSlice'
-import type { User } from './userSlice'
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { UnauthorizedError, useApi } from '../auth/useApi';
+import type { User } from './userSlice';
+import { userError, userLoaded, userLoading } from './userSlice';
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const api = useApi()
-  const dispatch = useAppDispatch()
-  const state = useAppSelector((s) => s.user)
-  const [attempt, setAttempt] = useState(0)
+  const api = useApi();
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((s) => s.user);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    let cancelled = false
+    let cancelled = false;
 
-    dispatch(userLoading())
+    dispatch(userLoading());
 
     api('/users/me')
       .then(async (r) => {
         if (!r.ok) {
-          throw new Error(`/users/me failed: ${r.status} ${r.statusText}`)
+          throw new Error(`/users/me failed: ${r.status} ${r.statusText}`);
         }
-        return (await r.json()) as User
+        return (await r.json()) as User;
       })
       .then((user) => {
-        if (cancelled) return
-        dispatch(userLoaded(user))
+        if (cancelled) return;
+        dispatch(userLoaded(user));
       })
       .catch((err: unknown) => {
-        if (cancelled) return
-        if (err instanceof UnauthorizedError) return
-        const message = err instanceof Error ? err.message : String(err)
-        dispatch(userError(message))
-      })
+        if (cancelled) return;
+        if (err instanceof UnauthorizedError) return;
+        const message = err instanceof Error ? err.message : String(err);
+        dispatch(userError(message));
+      });
 
     return () => {
-      cancelled = true
-    }
-  }, [api, dispatch, attempt])
+      cancelled = true;
+    };
+  }, [api, dispatch, attempt]);
 
   if (state.status === 'error') {
     return (
@@ -52,7 +53,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
           Retry
         </button>
       </div>
-    )
+    );
   }
 
   if (state.status !== 'loaded') {
@@ -60,8 +61,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       <div className="config-spinner">
         <div className="config-spinner__circle" />
       </div>
-    )
+    );
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }

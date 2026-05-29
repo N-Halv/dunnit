@@ -1,7 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { userReducer } from '../features/user/userSlice'
-import { listsReducer } from '../features/lists/listsSlice'
-import { itemsReducer } from '../features/lists/itemsSlice'
+import { configureStore } from '@reduxjs/toolkit';
+
+import { itemsReducer } from '../features/lists/itemsSlice';
+import { listsReducer } from '../features/lists/listsSlice';
+import { userReducer } from '../features/user/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -9,7 +10,7 @@ export const store = configureStore({
     lists: listsReducer,
     items: itemsReducer,
   },
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

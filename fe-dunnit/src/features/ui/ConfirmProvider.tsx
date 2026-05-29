@@ -1,5 +1,3 @@
-import { useCallback, useRef, useState } from 'react'
-import type { ReactNode } from 'react'
 import {
   Button,
   Dialog,
@@ -7,44 +5,47 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@mui/material'
-import { ConfirmContext } from './ConfirmContext'
-import type { ConfirmFn, ConfirmOptions } from './ConfirmContext'
+} from '@mui/material';
+import type { ReactNode } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-type State = { open: boolean; options: ConfirmOptions }
+import type { ConfirmFn, ConfirmOptions } from './ConfirmContext';
+import { ConfirmContext } from './ConfirmContext';
 
-const initialOptions: ConfirmOptions = { title: '' }
+type State = { open: boolean; options: ConfirmOptions };
+
+const initialOptions: ConfirmOptions = { title: '' };
 
 export function ConfirmProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>({
     open: false,
     options: initialOptions,
-  })
+  });
   // Stored across renders so the resolved value reaches the awaiting caller
   // regardless of which button was clicked or how the dialog was dismissed.
-  const resolveRef = useRef<((value: boolean) => void) | null>(null)
+  const resolveRef = useRef<((value: boolean) => void) | null>(null);
 
   const confirm = useCallback<ConfirmFn>((options) => {
     // If a previous prompt is still open, resolve it as cancelled so the old
     // caller's promise settles before we replace the dialog.
-    resolveRef.current?.(false)
-    setState({ open: true, options })
+    resolveRef.current?.(false);
+    setState({ open: true, options });
     return new Promise<boolean>((resolve) => {
-      resolveRef.current = resolve
-    })
-  }, [])
+      resolveRef.current = resolve;
+    });
+  }, []);
 
   function settle(value: boolean) {
-    const resolve = resolveRef.current
-    resolveRef.current = null
-    setState((s) => ({ ...s, open: false }))
-    resolve?.(value)
+    const resolve = resolveRef.current;
+    resolveRef.current = null;
+    setState((s) => ({ ...s, open: false }));
+    resolve?.(value);
   }
 
-  const { open, options } = state
+  const { open, options } = state;
   const confirmLabel =
-    options.confirmLabel ?? (options.destructive ? 'Delete' : 'Confirm')
-  const cancelLabel = options.cancelLabel ?? 'Cancel'
+    options.confirmLabel ?? (options.destructive ? 'Delete' : 'Confirm');
+  const cancelLabel = options.cancelLabel ?? 'Cancel';
 
   return (
     <ConfirmContext.Provider value={confirm}>
@@ -68,12 +69,11 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
             onClick={() => settle(true)}
             color={options.destructive ? 'error' : 'primary'}
             variant="contained"
-            autoFocus
           >
             {confirmLabel}
           </Button>
         </DialogActions>
       </Dialog>
     </ConfirmContext.Provider>
-  )
+  );
 }

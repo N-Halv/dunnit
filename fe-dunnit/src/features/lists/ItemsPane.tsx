@@ -1,3 +1,18 @@
+import type { DragEndEvent } from '@dnd-kit/core';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import {
   Box,
   List,
@@ -5,66 +20,52 @@ import {
   ListItemText,
   Skeleton,
   Typography,
-} from '@mui/material'
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import {
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import type { DragEndEvent } from '@dnd-kit/core'
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import { useAppSelector } from '../../store/hooks'
-import { useItems } from './useItems'
-import { ItemRow } from './ItemRow'
-import { NewItemRow } from './NewItemRow'
+} from '@mui/material';
+
+import { useAppSelector } from '../../store/hooks';
+import { ItemRow } from './ItemRow';
+import { NewItemRow } from './NewItemRow';
+import { useItems } from './useItems';
 
 type Props = {
-  listId: string
-}
+  listId: string;
+};
 
 export function ItemsPane({ listId }: Props) {
-  const lists = useAppSelector((s) => s.lists)
+  const lists = useAppSelector((s) => s.lists);
   const { state, createItem, updateItem, deleteItem, reorderItem } =
-    useItems(listId)
+    useItems(listId);
 
   const list =
     lists.status === 'loaded'
       ? lists.lists.find((l) => l.id === listId)
-      : undefined
+      : undefined;
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
-  )
+  );
 
   function handleDragEnd(e: DragEndEvent) {
-    const { active, over } = e
-    if (!over || active.id === over.id || state.status !== 'loaded') return
-    const oldIdx = state.items.findIndex((i) => i.id === active.id)
-    const newIdx = state.items.findIndex((i) => i.id === over.id)
-    if (oldIdx < 0 || newIdx < 0) return
-    const next = [...state.items]
-    const [moved] = next.splice(oldIdx, 1)
-    next.splice(newIdx, 0, moved)
+    const { active, over } = e;
+    if (!over || active.id === over.id || state.status !== 'loaded') return;
+    const oldIdx = state.items.findIndex((i) => i.id === active.id);
+    const newIdx = state.items.findIndex((i) => i.id === over.id);
+    if (oldIdx < 0 || newIdx < 0) return;
+    const next = [...state.items];
+    const [moved] = next.splice(oldIdx, 1);
+    next.splice(newIdx, 0, moved);
     reorderItem(
       next.map((i) => i.id),
       String(active.id),
     ).catch(() => {
       // Reorder reverts on next refresh; nothing UI-visible to do here.
-    })
+    });
   }
 
-  const count = state.status === 'loaded' ? state.items.length : 0
+  const count = state.status === 'loaded' ? state.items.length : 0;
 
   return (
     <Box>
@@ -130,7 +131,7 @@ export function ItemsPane({ listId }: Props) {
         </DndContext>
       )}
     </Box>
-  )
+  );
 }
 
 function ItemsSkeleton() {
@@ -147,5 +148,5 @@ function ItemsSkeleton() {
         </ListItemButton>
       ))}
     </List>
-  )
+  );
 }

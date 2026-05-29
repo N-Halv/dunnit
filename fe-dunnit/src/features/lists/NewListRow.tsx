@@ -1,49 +1,49 @@
-import { useEffect, useRef, useState } from 'react'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   CircularProgress,
   IconButton,
   ListItemButton,
   ListItemText,
   TextField,
-} from '@mui/material'
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+} from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 
-type Mode = 'idle' | 'editing' | 'saving'
+type Mode = 'idle' | 'editing' | 'saving';
 
 type Props = {
-  onCreate: (name: string) => Promise<unknown>
-}
+  onCreate: (name: string) => Promise<unknown>;
+};
 
 export function NewListRow({ onCreate }: Props) {
-  const [mode, setMode] = useState<Mode>('idle')
-  const [draft, setDraft] = useState('')
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [mode, setMode] = useState<Mode>('idle');
+  const [draft, setDraft] = useState('');
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (mode === 'editing') {
-      const id = window.setTimeout(() => inputRef.current?.focus(), 0)
-      return () => window.clearTimeout(id)
+      const id = window.setTimeout(() => inputRef.current?.focus(), 0);
+      return () => window.clearTimeout(id);
     }
-  }, [mode])
+  }, [mode]);
 
   function commit() {
-    const trimmed = draft.trim()
+    const trimmed = draft.trim();
     if (trimmed === '') {
-      setDraft('')
-      setMode('idle')
-      return
+      setDraft('');
+      setMode('idle');
+      return;
     }
-    setMode('saving')
+    setMode('saving');
     onCreate(trimmed)
       .then(() => {
-        setDraft('')
-        setMode('idle')
+        setDraft('');
+        setMode('idle');
       })
       .catch(() => {
         // Surface the input again so the user can retry.
-        setMode('editing')
-      })
+        setMode('editing');
+      });
   }
 
   if (mode === 'saving') {
@@ -55,7 +55,7 @@ export function NewListRow({ onCreate }: Props) {
         <ListItemText primary={draft} />
         <CircularProgress size={16} thickness={5} aria-label="Saving" />
       </ListItemButton>
-    )
+    );
   }
 
   if (mode === 'editing') {
@@ -71,12 +71,12 @@ export function NewListRow({ onCreate }: Props) {
           onBlur={commit}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              e.preventDefault()
-              commit()
+              e.preventDefault();
+              commit();
             } else if (e.key === 'Escape') {
-              e.preventDefault()
-              setDraft('')
-              setMode('idle')
+              e.preventDefault();
+              setDraft('');
+              setMode('idle');
             }
           }}
           size="small"
@@ -84,7 +84,7 @@ export function NewListRow({ onCreate }: Props) {
           fullWidth
         />
       </ListItemButton>
-    )
+    );
   }
 
   return (
@@ -101,5 +101,5 @@ export function NewListRow({ onCreate }: Props) {
         <MoreVertIcon fontSize="small" />
       </IconButton>
     </ListItemButton>
-  )
+  );
 }

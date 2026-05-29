@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles';
 
 // Design tokens taken from the desktop/mobile mocks (see /mocks).
 // Keep ALL styling decisions here — no sx, no local CSS files.
@@ -18,29 +18,29 @@ const colors = {
   danger: '#B91C1C',
   surface: '#FFFFFF',
   pageBg: '#F7F8FA',
-} as const
+} as const;
 
 declare module '@mui/material/styles' {
   interface Palette {
-    headerBar: { main: string; contrastText: string }
+    headerBar: { main: string; contrastText: string };
   }
   interface PaletteOptions {
-    headerBar?: { main: string; contrastText: string }
+    headerBar?: { main: string; contrastText: string };
   }
   interface TypographyVariants {
-    brand: React.CSSProperties
-    sectionLabel: React.CSSProperties
+    brand: React.CSSProperties;
+    sectionLabel: React.CSSProperties;
   }
   interface TypographyVariantsOptions {
-    brand?: React.CSSProperties
-    sectionLabel?: React.CSSProperties
+    brand?: React.CSSProperties;
+    sectionLabel?: React.CSSProperties;
   }
 }
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
-    brand: true
-    sectionLabel: true
+    brand: true;
+    sectionLabel: true;
   }
 }
 
@@ -396,6 +396,6 @@ export const theme = createTheme({
       },
     },
   },
-})
+});
 
-export { colors }
+export { colors };

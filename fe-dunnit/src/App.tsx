@@ -1,21 +1,22 @@
-import { Box, useMediaQuery } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
-import { Routes, Route, useParams } from 'react-router-dom'
-import { Header } from './features/layout/Header'
-import { ListsPane } from './features/lists/ListsPane'
-import { ItemsPane } from './features/lists/ItemsPane'
+import { Box, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Route, Routes, useParams } from 'react-router-dom';
+
+import { Header } from './features/layout/Header';
+import { ItemsPane } from './features/lists/ItemsPane';
+import { ListsPane } from './features/lists/ListsPane';
 
 function Layout() {
-  const { id: selectedListId } = useParams<{ id: string }>()
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const { id: selectedListId } = useParams<{ id: string }>();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   if (isMobile) {
     return selectedListId ? (
       <ItemsPane listId={selectedListId} />
     ) : (
       <ListsPane />
-    )
+    );
   }
 
   return (
@@ -33,7 +34,7 @@ function Layout() {
         )}
       </Box>
     </Box>
-  )
+  );
 }
 
 function App() {
@@ -45,7 +46,7 @@ function App() {
         <Route path="/lists/:id" element={<Layout />} />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,39 +1,40 @@
-import { useEffect, useState } from 'react'
-import type { ReactNode } from 'react'
-import { getApiPrefix } from '../../api/baseUrl'
-import { ConfigContext } from './ConfigContext'
-import type { Config } from './ConfigContext'
-import './ConfigProvider.css'
+import './ConfigProvider.css';
+
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
+
+import { getApiPrefix } from '../../api/baseUrl';
+import type { Config } from './ConfigContext';
+import { ConfigContext } from './ConfigContext';
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
-  const [config, setConfig] = useState<Config | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-  const [attempt, setAttempt] = useState(0)
+  const [config, setConfig] = useState<Config | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    let cancelled = false
+    let cancelled = false;
 
     fetch(`${getApiPrefix()}/config`)
       .then((r) => {
         if (!r.ok) {
-          throw new Error(`Config request failed: ${r.status} ${r.statusText}`)
+          throw new Error(`Config request failed: ${r.status} ${r.statusText}`);
         }
-        return r.json()
+        return r.json();
       })
       .then((data: Config) => {
-        if (cancelled) return
-        console.log('testValue:', data.testValue)
-        setConfig(data)
+        if (cancelled) return;
+        setConfig(data);
       })
       .catch((err: unknown) => {
-        if (cancelled) return
-        setError(err instanceof Error ? err : new Error(String(err)))
-      })
+        if (cancelled) return;
+        setError(err instanceof Error ? err : new Error(String(err)));
+      });
 
     return () => {
-      cancelled = true
-    }
-  }, [attempt])
+      cancelled = true;
+    };
+  }, [attempt]);
 
   if (error !== null) {
     return (
@@ -44,14 +45,14 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
           type="button"
           className="config-error__retry"
           onClick={() => {
-            setError(null)
-            setAttempt((a) => a + 1)
+            setError(null);
+            setAttempt((a) => a + 1);
           }}
         >
           Retry
         </button>
       </div>
-    )
+    );
   }
 
   if (config === null) {
@@ -59,10 +60,10 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       <div className="config-spinner">
         <div className="config-spinner__circle" />
       </div>
-    )
+    );
   }
 
   return (
     <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
-  )
+  );
 }
