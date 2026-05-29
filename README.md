@@ -5,8 +5,8 @@ This is meant to be a true production level build out
 
 ## Codebase Overview
 Dunnit is a monorepo appliation that includes 
-* `/fe-dunnit` (frontend): in react typescript app surved with vite 
-* `/be-dunnit` (backend): a dotnet web api sitting ontop of a sql database
+* `/dunnit-web` (frontend): in react typescript app surved with vite 
+* `/Dunnit.Api` (backend): a dotnet web api sitting ontop of a sql database
 
 
 ## Development
@@ -14,7 +14,7 @@ Dunnit is a monorepo appliation that includes
 ### OpenAPI type syncing
 We use OpenAPI to sync types so we are confident that our frontend is using types that our backend is actually using.
 
-We keep `/fe-dunnit/src/api/schema.d.ts` up to date the latest type definitions by running the following command from the `/fe-dunnit` directory.
+We keep `/dunnit-web/src/api/schema.d.ts` up to date the latest type definitions by running the following command from the `/dunnit-web` directory.
 ```
 npm run gen:api
 ```

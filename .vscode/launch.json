@@ -6,9 +6,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/be-dunnit/bin/Debug/net10.0/be-dunnit.dll",
+      "program": "${workspaceFolder}/Dunnit.Api/bin/Debug/net10.0/Dunnit.Api.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/be-dunnit",
+      "cwd": "${workspaceFolder}/Dunnit.Api",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",

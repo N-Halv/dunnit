@@ -1,6 +1,0 @@
-@be_dunnit_HostAddress = http://localhost:5999
-
-GET {{be_dunnit_HostAddress}}/config/
-Accept: application/json
-
-###

@@ -1,0 +1,6 @@
+@HostAddress = http://localhost:5999
+
+GET {{HostAddress}}/config/
+Accept: application/json
+
+###
