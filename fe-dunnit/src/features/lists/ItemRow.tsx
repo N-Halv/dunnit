@@ -20,6 +20,7 @@ type Props = {
   item: ItemEntity
   onRename: (title: string) => Promise<unknown>
   onUpdateDescription: (description: string | null) => Promise<unknown>
+  onToggleCompleted: (completed: boolean) => Promise<unknown>
   onDelete: () => Promise<unknown>
 }
 
@@ -27,6 +28,7 @@ export function ItemRow({
   item,
   onRename,
   onUpdateDescription,
+  onToggleCompleted,
   onDelete,
 }: Props) {
   const confirm = useConfirm()
@@ -35,8 +37,6 @@ export function ItemRow({
   const [editingDesc, setEditingDesc] = useState(false)
   const [draftDesc, setDraftDesc] = useState(item.description ?? '')
   const [expanded, setExpanded] = useState(false)
-  // Checkbox is local-only — backend has no completed field yet.
-  const [checked, setChecked] = useState(false)
   const [saving, setSaving] = useState(false)
   const titleRef = useRef<HTMLInputElement | null>(null)
   const descRef = useRef<HTMLTextAreaElement | null>(null)
@@ -134,8 +134,11 @@ export function ItemRow({
 
         <Checkbox
           size="small"
-          checked={checked}
-          onChange={(e) => setChecked(e.target.checked)}
+          checked={item.completed}
+          onChange={(e) => {
+            setSaving(true)
+            onToggleCompleted(e.target.checked).finally(() => setSaving(false))
+          }}
         />
 
         {editingTitle ? (

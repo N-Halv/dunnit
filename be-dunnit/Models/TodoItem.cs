@@ -17,6 +17,8 @@ public class TodoItem : ITimestamped
 
     public double SortOrder { get; set; }
 
+    public DateTimeOffset? CompletedAt { get; set; }
+
     public DateTimeOffset CreatedAt { get; set; }
 
     public DateTimeOffset UpdatedAt { get; set; }

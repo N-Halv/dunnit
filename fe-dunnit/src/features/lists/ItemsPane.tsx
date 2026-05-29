@@ -99,10 +99,22 @@ export function ItemsPane({ listId }: Props) {
                     updateItem(item.id, {
                       title,
                       description: item.description,
+                      completed: item.completed,
                     })
                   }
                   onUpdateDescription={(description) =>
-                    updateItem(item.id, { title: item.title, description })
+                    updateItem(item.id, {
+                      title: item.title,
+                      description,
+                      completed: item.completed,
+                    })
+                  }
+                  onToggleCompleted={(completed) =>
+                    updateItem(item.id, {
+                      title: item.title,
+                      description: item.description,
+                      completed,
+                    })
                   }
                   onDelete={() => deleteItem(item.id)}
                 />

@@ -10,11 +10,27 @@ export class UnauthorizedError extends Error {
 }
 
 export function useApi() {
-  const { getAccessTokenSilently, logout } = useAuth0()
+  const { getAccessTokenSilently, loginWithRedirect, logout } = useAuth0()
 
   return useCallback(
     async (path: string, init: RequestInit = {}) => {
-      const token = await getAccessTokenSilently()
+      let token: string
+      try {
+        token = await getAccessTokenSilently()
+      } catch (err) {
+        if (
+          err != null &&
+          typeof err === 'object' &&
+          'error' in err &&
+          (err as { error: unknown }).error === 'consent_required'
+        ) {
+          await loginWithRedirect({
+            authorizationParams: { prompt: 'consent' },
+          })
+          throw new UnauthorizedError()
+        }
+        throw err
+      }
       const headers = new Headers(init.headers)
       headers.set('Authorization', `Bearer ${token}`)
       const response = await fetch(`${getApiPrefix()}${path}`, {
@@ -27,6 +43,6 @@ export function useApi() {
       }
       return response
     },
-    [getAccessTokenSilently, logout],
+    [getAccessTokenSilently, loginWithRedirect, logout],
   )
 }

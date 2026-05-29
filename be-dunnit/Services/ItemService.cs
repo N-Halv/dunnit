@@ -12,7 +12,7 @@ public interface IItemService
 
     Task<TodoItem?> CreateAsync(Guid userId, Guid listId, string title, string? description, CancellationToken cancellationToken);
 
-    Task<TodoItem?> UpdateAsync(Guid userId, Guid listId, Guid itemId, string title, string? description, CancellationToken cancellationToken);
+    Task<TodoItem?> UpdateAsync(Guid userId, Guid listId, Guid itemId, string title, string? description, bool completed, CancellationToken cancellationToken);
 
     Task<ReorderResult<TodoItem>> ReorderAsync(Guid userId, Guid listId, Guid itemId, Guid? precedingItemId, CancellationToken cancellationToken);
 
@@ -78,7 +78,7 @@ public class ItemService : IItemService
         return item;
     }
 
-    public async Task<TodoItem?> UpdateAsync(Guid userId, Guid listId, Guid itemId, string title, string? description, CancellationToken cancellationToken)
+    public async Task<TodoItem?> UpdateAsync(Guid userId, Guid listId, Guid itemId, string title, string? description, bool completed, CancellationToken cancellationToken)
     {
         var item = await GetByIdAsync(userId, listId, itemId, cancellationToken);
         if (item is null)
@@ -88,6 +88,16 @@ public class ItemService : IItemService
 
         item.Title = title;
         item.Description = description;
+        // Only flip CompletedAt on a state transition so re-saving other fields
+        // doesn't reset the original completion timestamp.
+        if (completed && item.CompletedAt is null)
+        {
+            item.CompletedAt = DateTimeOffset.UtcNow;
+        }
+        else if (!completed && item.CompletedAt is not null)
+        {
+            item.CompletedAt = null;
+        }
         await _db.SaveChangesAsync(cancellationToken);
         return item;
     }

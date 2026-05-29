@@ -6,5 +6,6 @@ public record ItemResponse(
     string Title,
     string? Description,
     double SortOrder,
+    bool Completed,
     DateTimeOffset CreatedAt,
     DateTimeOffset UpdatedAt);

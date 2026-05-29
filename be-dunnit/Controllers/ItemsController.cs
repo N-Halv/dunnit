@@ -69,7 +69,7 @@ public class ItemsController : ControllerBase
         [CurrentUser] User user,
         CancellationToken cancellationToken)
     {
-        var item = await _itemService.UpdateAsync(user.Id, listId, itemId, request.Title, request.Description, cancellationToken);
+        var item = await _itemService.UpdateAsync(user.Id, listId, itemId, request.Title, request.Description, request.Completed, cancellationToken);
         if (item is null)
         {
             return NotFound();
@@ -117,6 +117,7 @@ public class ItemsController : ControllerBase
         item.Title,
         item.Description,
         item.SortOrder,
+        item.CompletedAt is not null,
         item.CreatedAt,
         item.UpdatedAt);
 }

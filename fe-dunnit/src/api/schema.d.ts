@@ -508,6 +508,7 @@ export interface components {
             description: null | string;
             /** Format: double */
             sortOrder: number | string;
+            completed: boolean;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -533,6 +534,7 @@ export interface components {
         UpdateItemRequest: {
             title: string;
             description: null | string;
+            completed: boolean;
         };
         UpdateListPositionRequest: {
             /** Format: uuid */
