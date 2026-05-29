@@ -22,7 +22,9 @@ function toNumber(value: number | string): number {
 }
 
 function sortBySortOrder(items: ItemEntity[]): ItemEntity[] {
-  return [...items].sort((a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder))
+  return [...items].sort(
+    (a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder),
+  )
 }
 
 const itemsSlice = createSlice({
@@ -30,7 +32,11 @@ const itemsSlice = createSlice({
   initialState,
   reducers: {
     itemsLoading(state, action: PayloadAction<string>) {
-      state.byList[action.payload] = { status: 'loading', items: [], error: null }
+      state.byList[action.payload] = {
+        status: 'loading',
+        items: [],
+        error: null,
+      }
     },
     itemsLoaded(
       state,

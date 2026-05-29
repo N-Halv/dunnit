@@ -34,7 +34,9 @@ export function ListsPane() {
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   )
 
   function handleDragEnd(e: DragEndEvent) {
@@ -46,7 +48,10 @@ export function ListsPane() {
     const next = [...state.lists]
     const [moved] = next.splice(oldIdx, 1)
     next.splice(newIdx, 0, moved)
-    reorderList(next.map((l) => l.id), String(active.id)).catch(() => {
+    reorderList(
+      next.map((l) => l.id),
+      String(active.id),
+    ).catch(() => {
       // Reorder reverts on next refresh; nothing UI-visible to do here.
     })
   }

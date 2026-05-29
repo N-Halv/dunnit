@@ -27,7 +27,9 @@ function Layout() {
         {selectedListId ? (
           <ItemsPane listId={selectedListId} />
         ) : (
-          <Box className="dunnit-pane-empty">Select a list to see its items.</Box>
+          <Box className="dunnit-pane-empty">
+            Select a list to see its items.
+          </Box>
         )}
       </Box>
     </Box>

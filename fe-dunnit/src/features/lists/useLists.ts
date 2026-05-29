@@ -15,7 +15,8 @@ import type { components } from '../../api/schema'
 
 type CreateListRequest = components['schemas']['CreateListRequest']
 type UpdateListRequest = components['schemas']['UpdateListRequest']
-type UpdateListPositionRequest = components['schemas']['UpdateListPositionRequest']
+type UpdateListPositionRequest =
+  components['schemas']['UpdateListPositionRequest']
 
 export function useLists() {
   const api = useApi()

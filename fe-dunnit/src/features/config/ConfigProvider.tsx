@@ -62,5 +62,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     )
   }
 
-  return <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
+  return (
+    <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
+  )
 }

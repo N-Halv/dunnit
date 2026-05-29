@@ -32,10 +32,7 @@ export function Header() {
         </Typography>
 
         {showListsToggle && (
-          <IconButton
-            aria-label="Show lists"
-            onClick={() => navigate('/')}
-          >
+          <IconButton aria-label="Show lists" onClick={() => navigate('/')}>
             <ViewListIcon fontSize="small" />
           </IconButton>
         )}
@@ -49,7 +46,9 @@ export function Header() {
               {
                 content: 'Logout',
                 action: () =>
-                  logout({ logoutParams: { returnTo: window.location.origin } }),
+                  logout({
+                    logoutParams: { returnTo: window.location.origin },
+                  }),
               },
             ]}
           />

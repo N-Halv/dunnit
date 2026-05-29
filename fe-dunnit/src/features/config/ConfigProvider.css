@@ -15,7 +15,9 @@
 }
 
 @keyframes config-spinner-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .config-error {

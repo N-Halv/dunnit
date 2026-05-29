@@ -44,7 +44,7 @@ declare module '@mui/material/Typography' {
   }
 }
 
-export const theme = createTheme({ 
+export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {

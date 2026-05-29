@@ -16,7 +16,10 @@ type State = { open: boolean; options: ConfirmOptions }
 const initialOptions: ConfirmOptions = { title: '' }
 
 export function ConfirmProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<State>({ open: false, options: initialOptions })
+  const [state, setState] = useState<State>({
+    open: false,
+    options: initialOptions,
+  })
   // Stored across renders so the resolved value reaches the awaiting caller
   // regardless of which button was clicked or how the dialog was dismissed.
   const resolveRef = useRef<((value: boolean) => void) | null>(null)
@@ -39,7 +42,8 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
   }
 
   const { open, options } = state
-  const confirmLabel = options.confirmLabel ?? (options.destructive ? 'Delete' : 'Confirm')
+  const confirmLabel =
+    options.confirmLabel ?? (options.destructive ? 'Delete' : 'Confirm')
   const cancelLabel = options.cancelLabel ?? 'Cancel'
 
   return (

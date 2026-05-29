@@ -15,7 +15,8 @@ import type { components } from '../../api/schema'
 
 type CreateItemRequest = components['schemas']['CreateItemRequest']
 type UpdateItemRequest = components['schemas']['UpdateItemRequest']
-type UpdateItemPositionRequest = components['schemas']['UpdateItemPositionRequest']
+type UpdateItemPositionRequest =
+  components['schemas']['UpdateItemPositionRequest']
 
 // Stable reference so the selector doesn't return a new object each render
 // when the list hasn't been fetched yet.
@@ -25,7 +26,7 @@ export function useItems(listId: string | undefined) {
   const api = useApi()
   const dispatch = useAppDispatch()
   const state = useAppSelector((s) =>
-    listId ? s.items.byList[listId] ?? idleSlot : idleSlot,
+    listId ? (s.items.byList[listId] ?? idleSlot) : idleSlot,
   )
 
   useEffect(() => {
@@ -111,14 +112,11 @@ export function useItems(listId: string | undefined) {
       const movedIdx = orderedIds.indexOf(movedId)
       const precedingItemId = movedIdx > 0 ? orderedIds[movedIdx - 1] : null
       const body: UpdateItemPositionRequest = { precedingItemId }
-      const r = await api(
-        `/lists/${listId}/items/${movedId}/position`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        },
-      )
+      const r = await api(`/lists/${listId}/items/${movedId}/position`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
       if (!r.ok) throw new Error(`Reorder failed: ${r.status} ${r.statusText}`)
       const updated = (await r.json()) as ItemEntity
       dispatch(itemUpdated(updated))

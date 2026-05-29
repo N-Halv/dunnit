@@ -18,7 +18,9 @@ function toNumber(value: number | string): number {
 }
 
 function sortBySortOrder(lists: ListEntity[]): ListEntity[] {
-  return [...lists].sort((a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder))
+  return [...lists].sort(
+    (a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder),
+  )
 }
 
 const listsSlice = createSlice({
@@ -29,7 +31,11 @@ const listsSlice = createSlice({
       return { status: 'loading', lists: [], error: null }
     },
     listsLoaded(_state, action: PayloadAction<ListEntity[]>): ListsState {
-      return { status: 'loaded', lists: sortBySortOrder(action.payload), error: null }
+      return {
+        status: 'loaded',
+        lists: sortBySortOrder(action.payload),
+        error: null,
+      }
     },
     listsError(_state, action: PayloadAction<string>): ListsState {
       return { status: 'error', lists: [], error: action.payload }
