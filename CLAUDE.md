@@ -24,7 +24,9 @@ Both halves are currently at template-startup state: the backend exposes only th
 
 ### Backend (`be-dunnit/`)
 - `dotnet run` — runs on `http://localhost:5999` (http profile, the default) or `https://localhost:7170` (https profile via `dotnet run --launch-profile https`)
-- `dotnet build` — build the project
+- `dotnet build` — build the project (also runs Roslyn analyzers; warnings appear in build output)
+- `dotnet format` — apply formatting + code-style fixes (driven by `.editorconfig`). Equivalent to `prettier --write`.
+- `dotnet format --verify-no-changes --severity warn` — CI-style check, fails if anything is unformatted or violates a warning-severity style rule. Equivalent to `prettier --check`.
 - OpenAPI is exposed in Development via `app.MapOpenApi()` (see `Program.cs`)
 - `be-dunnit.http` contains sample requests usable from the VS Code REST Client / Rider HTTP client
 

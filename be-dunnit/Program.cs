@@ -68,7 +68,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // Automatically update the database schema on startup. In production, we might make it a part of the deploy processes.
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
