@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconMenu } from '../ui/IconMenu';
+import { LIST_NAME_MAX_LENGTH } from './limits';
 import type { ListEntity } from './listsSlice';
 
 type Props = {
@@ -119,6 +120,7 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
             onClick={(e) => e.stopPropagation()}
             size="small"
             fullWidth
+            slotProps={{ htmlInput: { maxLength: LIST_NAME_MAX_LENGTH } }}
           />
         ) : (
           <ListItemText primary={list.name} />

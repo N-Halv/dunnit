@@ -9,9 +9,9 @@ public class CreateItemRequestValidator : AbstractValidator<CreateItemRequest>
     {
         RuleFor(x => x.Title)
             .NotEmpty()
-            .MaximumLength(200);
+            .MaximumLength(ValidationLimits.ItemTitleMaxLength);
 
         RuleFor(x => x.Description)
-            .MaximumLength(2000);
+            .MaximumLength(ValidationLimits.ItemDescriptionMaxLength);
     }
 }

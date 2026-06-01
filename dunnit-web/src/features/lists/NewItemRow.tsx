@@ -10,6 +10,8 @@ import {
 } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
+import { ITEM_TITLE_MAX_LENGTH } from './limits';
+
 type Mode = 'idle' | 'editing' | 'saving';
 
 type Props = {
@@ -85,6 +87,7 @@ export function NewItemRow({ onCreate }: Props) {
           size="small"
           placeholder="New item name"
           fullWidth
+          slotProps={{ htmlInput: { maxLength: ITEM_TITLE_MAX_LENGTH } }}
         />
       </ListItemButton>
     );

@@ -9,6 +9,6 @@ public class CreateListRequestValidator : AbstractValidator<CreateListRequest>
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(200);
+            .MaximumLength(ValidationLimits.ListNameMaxLength);
     }
 }

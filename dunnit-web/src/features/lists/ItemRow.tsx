@@ -16,6 +16,10 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useConfirm } from '../ui/ConfirmContext';
 import type { ItemEntity } from './itemsSlice';
+import {
+  ITEM_DESCRIPTION_MAX_LENGTH,
+  ITEM_TITLE_MAX_LENGTH,
+} from './limits';
 
 type Props = {
   item: ItemEntity;
@@ -160,6 +164,7 @@ export function ItemRow({
             }}
             size="small"
             fullWidth
+            slotProps={{ htmlInput: { maxLength: ITEM_TITLE_MAX_LENGTH } }}
           />
         ) : (
           <Typography
@@ -203,6 +208,7 @@ export function ItemRow({
               size="small"
               fullWidth
               placeholder="Add a description..."
+              slotProps={{ htmlInput: { maxLength: ITEM_DESCRIPTION_MAX_LENGTH } }}
             />
           ) : (
             <Typography
