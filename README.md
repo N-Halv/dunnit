@@ -72,6 +72,8 @@ Each test gets a clean database (the base class resets tables before every test)
 
 ## Backlog
 
+Some things we should build yet:
+
 - Real non-SQLite database for production
 - Periodic normalization of the `SortOrder` columns
 - Websockets for async updates
