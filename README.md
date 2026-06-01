@@ -35,7 +35,7 @@ Dunnit is a monorepo with two sibling projects:
 
 - `dunnit-web/` (frontend) — React + TypeScript app served by Vite, MUI for components, Redux Toolkit for state, Auth0 for sign-in
 - `Dunnit.Api/` (backend) — ASP.NET Core Web API on .NET 10, EF Core on SQLite, JWT auth via Auth0
-- `Dunnit.Api.Tests/` (backend tests) - Integration tests for Dunnit backend
+- `Dunnit.Api.Tests/` (backend tests) - Integration tests for Dunnit backend. Tests http routes through to the database.
 
 ## Working with the API contract
 
