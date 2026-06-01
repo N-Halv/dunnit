@@ -28,18 +28,15 @@ declare module '@mui/material/styles' {
     headerBar?: { main: string; contrastText: string };
   }
   interface TypographyVariants {
-    brand: React.CSSProperties;
     sectionLabel: React.CSSProperties;
   }
   interface TypographyVariantsOptions {
-    brand?: React.CSSProperties;
     sectionLabel?: React.CSSProperties;
   }
 }
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
-    brand: true;
     sectionLabel: true;
   }
 }
@@ -90,13 +87,6 @@ export const theme = createTheme({
     body1: { fontSize: '0.875rem' },
     body2: { fontSize: '0.8125rem', color: colors.textSecondary },
     button: { textTransform: 'none', fontWeight: 500 },
-    brand: {
-      fontSize: '1.1875rem',
-      fontWeight: 700,
-      color: '#FFFFFF',
-      flex: 1,
-      letterSpacing: 0,
-    },
     sectionLabel: {
       fontSize: '0.625rem',
       fontWeight: 700,
@@ -177,6 +167,12 @@ export const theme = createTheme({
         '.dunnit-pane-header': {
           padding: '14px 18px 12px',
           borderBottom: `1px solid ${colors.border}`,
+        },
+        '.dunnit-header-logo': {
+          height: 28,
+          width: 'auto',
+          display: 'block',
+          marginRight: 'auto',
         },
         '.dunnit-pane-empty': {
           padding: 32,

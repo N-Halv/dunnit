@@ -3,9 +3,9 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import {
   AppBar,
+  Box,
   IconButton,
   Toolbar,
-  Typography,
   useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -28,9 +28,7 @@ export function Header() {
   return (
     <AppBar>
       <Toolbar>
-        <Typography variant="brand" component="div">
-          Dunnit
-        </Typography>
+        <Box component="img" src="/logo.svg" alt="Dunnit" className="dunnit-header-logo" />
 
         {showListsToggle && (
           <IconButton aria-label="Show lists" onClick={() => navigate('/')}>
