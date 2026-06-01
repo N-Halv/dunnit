@@ -39,7 +39,10 @@ export function IconMenu({ icon, items, ariaLabel = 'Open menu' }: Props) {
           <MenuItem
             key={idx}
             disabled={!item.action}
-            onClick={() => {
+            onClick={(e) => {
+              // MUI Menu portals into document.body, but React synthetic events
+              // still bubble through the React tree to ancestors like ListItemButton.
+              e.stopPropagation();
               setAnchorEl(null);
               item.action?.();
             }}

@@ -40,6 +40,9 @@ export function ItemRow({
   const [draftDesc, setDraftDesc] = useState(item.description ?? '');
   const [expanded, setExpanded] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [pendingCompleted, setPendingCompleted] = useState<boolean | null>(
+    null,
+  );
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -122,6 +125,9 @@ export function ItemRow({
     }
   }
 
+  const shownTitle = saving ? draftTitle : item.title;
+  const shownDescription = saving ? draftDesc : (item.description ?? '');
+
   return (
     <Box ref={setNodeRef} style={dragStyle} className="dunnit-item-row">
       <ListItemButton component="div" disableRipple>
@@ -136,10 +142,16 @@ export function ItemRow({
 
         <Checkbox
           size="small"
-          checked={item.completed}
+          checked={pendingCompleted ?? item.completed}
+          disabled={saving}
           onChange={(e) => {
+            const next = e.target.checked;
+            setPendingCompleted(next);
             setSaving(true);
-            onToggleCompleted(e.target.checked).finally(() => setSaving(false));
+            onToggleCompleted(next).finally(() => {
+              setSaving(false);
+              setPendingCompleted(null);
+            });
           }}
         />
 
@@ -167,12 +179,16 @@ export function ItemRow({
         ) : (
           <Typography
             className="dunnit-item-title"
-            onClick={() => {
-              setDraftTitle(item.title);
-              setEditingTitle(true);
-            }}
+            onClick={
+              saving
+                ? undefined
+                : () => {
+                    setDraftTitle(item.title);
+                    setEditingTitle(true);
+                  }
+            }
           >
-            {item.title}
+            {shownTitle}
           </Typography>
         )}
 
@@ -214,22 +230,27 @@ export function ItemRow({
           ) : (
             <Typography
               className={
-                item.description
+                shownDescription
                   ? 'dunnit-item-description'
                   : 'dunnit-item-description dunnit-item-description--empty'
               }
-              onClick={() => {
-                setDraftDesc(item.description ?? '');
-                setEditingDesc(true);
-              }}
+              onClick={
+                saving
+                  ? undefined
+                  : () => {
+                      setDraftDesc(item.description ?? '');
+                      setEditingDesc(true);
+                    }
+              }
             >
-              {item.description ?? 'Add a description...'}
+              {shownDescription || 'Add a description...'}
             </Typography>
           )}
           <button
             type="button"
             className="dunnit-item-delete"
             onClick={handleDelete}
+            disabled={saving}
           >
             Delete item
           </button>

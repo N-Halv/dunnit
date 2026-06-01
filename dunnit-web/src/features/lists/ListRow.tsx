@@ -124,7 +124,7 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
             slotProps={{ htmlInput: { maxLength: LIST_NAME_MAX_LENGTH } }}
           />
         ) : (
-          <ListItemText primary={list.name} />
+          <ListItemText primary={saving ? draft : list.name} />
         )}
 
         {saving && (
@@ -137,12 +137,17 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
           items={[
             {
               content: 'Edit',
-              action: () => {
-                setDraft(list.name);
-                setEditing(true);
-              },
+              action: saving
+                ? undefined
+                : () => {
+                    setDraft(list.name);
+                    setEditing(true);
+                  },
             },
-            { content: 'Delete', action: onRequestDelete },
+            {
+              content: 'Delete',
+              action: saving ? undefined : onRequestDelete,
+            },
           ]}
         />
       </ListItemButton>
