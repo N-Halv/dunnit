@@ -86,7 +86,7 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
       <ListItemButton
         component="div"
         selected={selected}
-        disableRipple={editing}
+        disableRipple
         onClick={() => {
           if (editing) return;
           navigate(`/lists/${list.id}`);
