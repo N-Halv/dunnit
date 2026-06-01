@@ -1,13 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import SettingsIcon from '@mui/icons-material/Settings';
+import PersonIcon from '@mui/icons-material/Person';
 import ViewListIcon from '@mui/icons-material/ViewList';
-import {
-  AppBar,
-  Box,
-  IconButton,
-  Toolbar,
-  useMediaQuery,
-} from '@mui/material';
+import { AppBar, Box, IconButton, Toolbar, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useMatch, useNavigate } from 'react-router-dom';
 
@@ -28,7 +22,12 @@ export function Header() {
   return (
     <AppBar>
       <Toolbar>
-        <Box component="img" src="/logo.svg" alt="Dunnit" className="dunnit-header-logo" />
+        <Box
+          component="img"
+          src="/logo.svg"
+          alt="Dunnit"
+          className="dunnit-header-logo"
+        />
 
         {showListsToggle && (
           <IconButton aria-label="Show lists" onClick={() => navigate('/')}>
@@ -39,7 +38,7 @@ export function Header() {
         {showSettings && (
           <IconMenu
             ariaLabel="Settings"
-            icon={<SettingsIcon fontSize="small" />}
+            icon={<PersonIcon fontSize="small" />}
             items={[
               { content: `Logged in as ${userState.user.email}` },
               {
