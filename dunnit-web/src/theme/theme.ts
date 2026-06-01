@@ -208,11 +208,19 @@ export const theme = createTheme({
           textOverflow: 'ellipsis',
           padding: '4px 0',
         },
+        // The row is one visual block — it owns the margin, radius, and hover.
+        // The title button and expanded section sit flat inside it.
+        '.dunnit-item-row': {
+          margin: '0 6px',
+          borderRadius: 8,
+          '&:hover': {
+            backgroundColor: 'rgba(59, 91, 219, 0.04)',
+          },
+        },
         '.dunnit-item-expanded': {
-          margin: '2px 14px 6px 56px',
-          padding: '8px 12px 10px',
-          borderLeft: `2px solid ${colors.primaryHover}`,
-          borderRadius: '0 4px 4px 0',
+          // Left padding indents the description under the title text,
+          // clearing the drag handle and checkbox in the row above.
+          padding: '4px 14px 10px 88px',
           display: 'flex',
           flexDirection: 'column',
           gap: 10,
@@ -370,6 +378,14 @@ export const theme = createTheme({
             '& .MuiListItemText-primary': {
               color: colors.textMuted,
               fontWeight: 400,
+            },
+          },
+          // Inside an item row, the wrapper owns margin/radius/hover.
+          '.dunnit-item-row &': {
+            margin: 0,
+            borderRadius: 0,
+            '&:hover': {
+              backgroundColor: 'transparent',
             },
           },
         },

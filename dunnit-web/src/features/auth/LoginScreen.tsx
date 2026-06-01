@@ -7,10 +7,7 @@ export function LoginScreen() {
   return (
     <Box className="dunnit-fullscreen-stack">
       <Typography variant="h1">Welcome to Dunnit</Typography>
-      <Typography
-        variant="body2"
-        className="dunnit-login__subtitle"
-      >
+      <Typography variant="body2" className="dunnit-login__subtitle">
         Sign in to access your todo lists.
       </Typography>
       <Button variant="outlined" onClick={() => loginWithRedirect()}>

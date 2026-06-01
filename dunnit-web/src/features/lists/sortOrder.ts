@@ -9,5 +9,7 @@ function toNumber(value: number | string): number {
 }
 
 export function sortBySortOrder<T extends Sortable>(items: T[]): T[] {
-  return [...items].sort((a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder));
+  return [...items].sort(
+    (a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder),
+  );
 }

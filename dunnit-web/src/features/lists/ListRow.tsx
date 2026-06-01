@@ -118,6 +118,7 @@ export function ListRow({ list, selected, onRequestDelete, onRename }: Props) {
               }
             }}
             onClick={(e) => e.stopPropagation()}
+            variant="standard"
             size="small"
             fullWidth
             slotProps={{ htmlInput: { maxLength: LIST_NAME_MAX_LENGTH } }}

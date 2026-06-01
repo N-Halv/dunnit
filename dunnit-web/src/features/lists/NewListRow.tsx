@@ -81,6 +81,7 @@ export function NewListRow({ onCreate }: Props) {
               setMode('idle');
             }
           }}
+          variant="standard"
           size="small"
           placeholder="New list name"
           fullWidth

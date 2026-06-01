@@ -84,6 +84,7 @@ export function NewItemRow({ onCreate }: Props) {
               setMode('idle');
             }
           }}
+          variant="standard"
           size="small"
           placeholder="New item name"
           fullWidth

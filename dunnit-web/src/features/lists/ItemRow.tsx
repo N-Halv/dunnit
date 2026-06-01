@@ -16,10 +16,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useConfirm } from '../ui/ConfirmContext';
 import type { ItemEntity } from './itemsSlice';
-import {
-  ITEM_DESCRIPTION_MAX_LENGTH,
-  ITEM_TITLE_MAX_LENGTH,
-} from './limits';
+import { ITEM_DESCRIPTION_MAX_LENGTH, ITEM_TITLE_MAX_LENGTH } from './limits';
 
 type Props = {
   item: ItemEntity;
@@ -126,7 +123,7 @@ export function ItemRow({
   }
 
   return (
-    <Box ref={setNodeRef} style={dragStyle}>
+    <Box ref={setNodeRef} style={dragStyle} className="dunnit-item-row">
       <ListItemButton component="div" disableRipple>
         <IconButton
           size="small"
@@ -162,6 +159,7 @@ export function ItemRow({
                 setEditingTitle(false);
               }
             }}
+            variant="standard"
             size="small"
             fullWidth
             slotProps={{ htmlInput: { maxLength: ITEM_TITLE_MAX_LENGTH } }}
@@ -204,11 +202,14 @@ export function ItemRow({
               onChange={(e) => setDraftDesc(e.target.value)}
               onBlur={commitDesc}
               multiline
-              minRows={2}
+              minRows={1}
+              variant="standard"
               size="small"
               fullWidth
               placeholder="Add a description..."
-              slotProps={{ htmlInput: { maxLength: ITEM_DESCRIPTION_MAX_LENGTH } }}
+              slotProps={{
+                htmlInput: { maxLength: ITEM_DESCRIPTION_MAX_LENGTH },
+              }}
             />
           ) : (
             <Typography
