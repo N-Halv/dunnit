@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { UnauthorizedError, useApi } from '../auth/useApi';
@@ -12,7 +12,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const api = useApi();
   const dispatch = useAppDispatch();
   const state = useAppSelector((s) => s.user);
-  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -40,15 +39,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [api, dispatch, attempt]);
+  }, [api, dispatch]);
 
   if (state.status === 'error') {
     return (
-      <LoadFailedScreen
-        title="Failed to load user"
-        message={state.error}
-        onRetry={() => setAttempt((a) => a + 1)}
-      />
+      <LoadFailedScreen title="Failed to load user" message={state.error} />
     );
   }
 

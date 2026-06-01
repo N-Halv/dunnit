@@ -10,7 +10,6 @@ import { ConfigContext } from './ConfigContext';
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<Config | null>(null);
   const [error, setError] = useState<Error | null>(null);
-  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -34,17 +33,13 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [attempt]);
+  }, []);
 
   if (error !== null) {
     return (
       <LoadFailedScreen
         title="Failed to load configuration"
         message={error.message}
-        onRetry={() => {
-          setError(null);
-          setAttempt((a) => a + 1);
-        }}
       />
     );
   }
