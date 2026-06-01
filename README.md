@@ -1,4 +1,7 @@
-# dunnit
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="dunnit-web/public/logo.svg">
+  <img alt="Dunnit" src="dunnit-web/public/logo_dark.svg" width="180">
+</picture>
 
 Make a list, add a todo item to the list and check it off when you've "dunnit".
 
@@ -65,6 +68,32 @@ dotnet test
 ```
 
 Each test gets a clean database (the base class resets tables before every test).
+
+### Coverage
+
+`coverlet.collector` is wired into the test project, so coverage works out of the box. Generate the raw Cobertura XML:
+
+```sh
+cd Dunnit.Api.Tests
+dotnet test --collect:"XPlat Code Coverage"
+```
+
+That drops a `coverage.cobertura.xml` under `TestResults/<guid>/`. The raw line-rate is misleading on its own — it counts EF `Migrations/` and source-generator output as uncovered code that no test will ever exercise.
+
+For a human-readable HTML report, install `reportgenerator` once and run it against the XML:
+
+```sh
+dotnet tool install -g dotnet-reportgenerator-globaltool
+reportgenerator \
+  -reports:"TestResults/**/coverage.cobertura.xml" \
+  -targetdir:"coverage-report" \
+  -reporttypes:Html \
+  -assemblyfilters:"+Dunnit.Api" \
+  -classfilters:"-Dunnit.Api.Migrations.*"
+open coverage-report/index.html
+```
+
+`-assemblyfilters` keeps only `Dunnit.Api` (drops test/framework assemblies); `-classfilters` excludes the generated migration classes.
 
 ## Backlog
 
