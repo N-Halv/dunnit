@@ -84,7 +84,7 @@ export function useApi() {
         logout({ logoutParams: { returnTo: window.location.origin } });
         throw new UnauthorizedError();
       }
-      if (!response.ok) {
+      if (response.status >= 400) {
         const message = await extractUserMessage(response);
         showToast(message);
       }
