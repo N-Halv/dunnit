@@ -12,15 +12,20 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import {
   Box,
+  IconButton,
   List,
   ListItemButton,
   ListItemText,
   Skeleton,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../store/hooks';
 import { ItemRow } from './ItemRow';
@@ -32,6 +37,9 @@ type Props = {
 };
 
 export function ItemsPane({ listId }: Props) {
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const lists = useAppSelector((s) => s.lists);
   const { state, createItem, updateItem, deleteItem, reorderItem } =
     useItems(listId);
@@ -70,7 +78,18 @@ export function ItemsPane({ listId }: Props) {
   return (
     <Box>
       <Box className="dunnit-pane-header">
-        <Typography variant="h3">{list?.name ?? ' '}</Typography>
+        <Box className="dunnit-pane-header__title-row">
+          {isMobile && (
+            <IconButton
+              aria-label="Back to lists"
+              onClick={() => navigate('/')}
+              className="dunnit-pane-header__back"
+            >
+              <ChevronLeftIcon fontSize="small" />
+            </IconButton>
+          )}
+          <Typography variant="h3">{list?.name ?? ' '}</Typography>
+        </Box>
         <Typography variant="body2">
           {state.status === 'loaded'
             ? `${count} ${count === 1 ? 'item' : 'items'}`

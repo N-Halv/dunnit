@@ -42,6 +42,15 @@ declare module '@mui/material/Typography' {
 }
 
 export const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 750,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   palette: {
     mode: 'light',
     primary: {
@@ -167,6 +176,14 @@ export const theme = createTheme({
         '.dunnit-pane-header': {
           padding: '14px 18px 12px',
           borderBottom: `1px solid ${colors.border}`,
+        },
+        '.dunnit-pane-header__title-row': {
+          display: 'flex',
+          alignItems: 'center',
+          gap: 4,
+        },
+        '.dunnit-pane-header__back': {
+          marginLeft: -6,
         },
         '.dunnit-header-logo': {
           height: 28,

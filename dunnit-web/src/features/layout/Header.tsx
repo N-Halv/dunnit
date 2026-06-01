@@ -1,23 +1,15 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import PersonIcon from '@mui/icons-material/Person';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import { AppBar, Box, IconButton, Toolbar, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useMatch, useNavigate } from 'react-router-dom';
+import { AppBar, Box, Toolbar } from '@mui/material';
 
 import { useAppSelector } from '../../store/hooks';
 import { IconMenu } from '../ui/IconMenu';
 
 export function Header() {
-  const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isItemsRoute = Boolean(useMatch('/lists/:id'));
   const userState = useAppSelector((s) => s.user);
   const { logout } = useAuth0();
 
   const showSettings = userState.status === 'loaded';
-  const showListsToggle = showSettings && isMobile && isItemsRoute;
 
   return (
     <AppBar>
@@ -28,12 +20,6 @@ export function Header() {
           alt="Dunnit"
           className="dunnit-header-logo"
         />
-
-        {showListsToggle && (
-          <IconButton aria-label="Show lists" onClick={() => navigate('/')}>
-            <ViewListIcon fontSize="small" />
-          </IconButton>
-        )}
 
         {showSettings && (
           <IconMenu
