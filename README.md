@@ -5,13 +5,6 @@
 
 Make a list, add a todo item to the list and check it off when you've "dunnit".
 
-## Codebase overview
-
-Dunnit is a monorepo with two sibling projects:
-
-- `dunnit-web/` (frontend) — React + TypeScript app served by Vite, MUI for components, Redux Toolkit for state, Auth0 for sign-in
-- `Dunnit.Api/` (backend) — ASP.NET Core Web API on .NET 10, EF Core on SQLite, JWT auth via Auth0
-
 ## Local setup
 
 You need: Node 20+, .NET 10 SDK.
@@ -35,6 +28,14 @@ npm run dev                # http://localhost:5888
 ```
 
 The frontend talks to the backend via the origin map in `dunnit-web/src/api/baseUrl.ts`. Add an entry there for any new deploy environment.
+
+## Codebase overview
+
+Dunnit is a monorepo with two sibling projects:
+
+- `dunnit-web/` (frontend) — React + TypeScript app served by Vite, MUI for components, Redux Toolkit for state, Auth0 for sign-in
+- `Dunnit.Api/` (backend) — ASP.NET Core Web API on .NET 10, EF Core on SQLite, JWT auth via Auth0
+- `Dunnit.Api.Tests/` (backend tests) - Integration tests for Dunnit backend
 
 ## Working with the API contract
 
