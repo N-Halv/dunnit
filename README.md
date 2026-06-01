@@ -1,31 +1,63 @@
 # dunnit
-Make a list, add todo items to the list and check it off when you've "dunnit".
 
-This is meant to be a true production level build out
+Make a list, add a todo item to the list and check it off when you've "dunnit".
 
-## Codebase Overview
-Dunnit is a monorepo appliation that includes 
-* `/dunnit-web` (frontend): in react typescript app surved with vite 
-* `/Dunnit.Api` (backend): a dotnet web api sitting ontop of a sql database
+## Codebase overview
 
+Dunnit is a monorepo with two sibling projects:
 
-## Development
+- `dunnit-web/` (frontend) — React + TypeScript app served by Vite, MUI for components, Redux Toolkit for state, Auth0 for sign-in
+- `Dunnit.Api/` (backend) — ASP.NET Core Web API on .NET 10, EF Core on SQLite, JWT auth via Auth0
 
-### OpenAPI type syncing
-We use OpenAPI to sync types so we are confident that our frontend is using types that our backend is actually using.
+## Local setup
 
-We keep `/dunnit-web/src/api/schema.d.ts` up to date the latest type definitions by running the following command from the `/dunnit-web` directory.
+You need: Node 20+, .NET 10 SDK.
+
+Run the backend and frontend in different terminals.
+
+Backend startup:
+
+```sh
+cd Dunnit.Api
+dotnet tool restore        # installs the pinned dotnet-ef tool
+dotnet run                 # http://localhost:5999
 ```
+
+Frontend startup:
+
+```sh
+cd dunnit-web
+npm install
+npm run dev                # http://localhost:5888
+```
+
+The frontend talks to the backend via the origin map in `dunnit-web/src/api/baseUrl.ts`. Add an entry there for any new deploy environment.
+
+## Working with the API contract
+
+Types are shared via OpenAPI. After changing a DTO or route signature in `Dunnit.Api/`, regenerate the frontend types:
+
+```sh
+cd dunnit-web
 npm run gen:api
 ```
 
+This rebuilds the backend (no running server required), reads the generated `Dunnit.Api.json`, and writes `dunnit-web/src/api/schema.d.ts`. That file is committed; the OpenAPI JSON itself is gitignored.
 
-## TODOs
+## Database
 
-### DB
-Demo decissions: I'm running SQLite in this process which I wouldn't want to do in a production environment.
+SQLite, file at `Dunnit.Api/dunnit.db`. Schema is managed via EF Core migrations under `Dunnit.Api/Migrations/`. In Development, migrations are applied on startup (`Program.cs`); in production this would happen as part of the deploy.
 
-### Features I want to build
-Normalize sort order every once in a while
-Change history
-Shared lists
+To add a migration:
+
+```sh
+cd Dunnit.Api
+dotnet ef migrations add <DescriptiveName>
+```
+
+## Backlog
+
+- Real non-SQLite database for production
+- Periodic normalization of the `SortOrder` columns
+- Websockets for async updates
+- Don’t use cacheLocation="localstorage” for -Auth0Provider but instead use “memory”. Better defence against SSX.
