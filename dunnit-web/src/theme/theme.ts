@@ -112,6 +112,11 @@ export const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        'html, body': {
+          margin: 0,
+          padding: 0,
+          height: '100%',
+        },
         body: {
           backgroundColor: colors.pageBg,
           color: colors.textPrimary,
@@ -119,6 +124,7 @@ export const theme = createTheme({
           MozOsxFontSmoothing: 'grayscale',
         },
         '#root': {
+          height: '100%',
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
@@ -128,6 +134,28 @@ export const theme = createTheme({
         },
         '.dunnit-pane-error': {
           padding: '16px',
+        },
+        '.dunnit-fullscreen-center': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+        },
+        '.dunnit-fullscreen-stack': {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+          minHeight: '100vh',
+          padding: '32px',
+          textAlign: 'center',
+        },
+        '.dunnit-fullscreen-stack__message': {
+          maxWidth: 480,
+        },
+        '.dunnit-login__subtitle': {
+          maxWidth: 512,
         },
         '.dunnit-layout': {
           display: 'flex',

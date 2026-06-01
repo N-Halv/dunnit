@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Route, Routes, useParams } from 'react-router-dom';
 
@@ -37,6 +37,17 @@ function Layout() {
   );
 }
 
+function NotFound() {
+  return (
+    <Box className="dunnit-fullscreen-stack">
+      <Typography variant="h1">Page not found</Typography>
+      <Typography variant="body2">
+        The page you’re looking for doesn’t exist.
+      </Typography>
+    </Box>
+  );
+}
+
 function App() {
   return (
     <>
@@ -44,6 +55,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />} />
         <Route path="/lists/:id" element={<Layout />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

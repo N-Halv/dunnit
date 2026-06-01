@@ -1,9 +1,9 @@
-import './ConfigProvider.css';
-
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
 import { getApiPrefix } from '../../api/baseUrl';
+import { FullScreenSpinner } from '../ui/FullScreenSpinner';
+import { LoadFailedScreen } from '../ui/LoadFailedScreen';
 import type { Config } from './ConfigContext';
 import { ConfigContext } from './ConfigContext';
 
@@ -38,29 +38,19 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   if (error !== null) {
     return (
-      <div className="config-error">
-        <h2>Failed to load configuration</h2>
-        <p className="config-error__message">{error.message}</p>
-        <button
-          type="button"
-          className="config-error__retry"
-          onClick={() => {
-            setError(null);
-            setAttempt((a) => a + 1);
-          }}
-        >
-          Retry
-        </button>
-      </div>
+      <LoadFailedScreen
+        title="Failed to load configuration"
+        message={error.message}
+        onRetry={() => {
+          setError(null);
+          setAttempt((a) => a + 1);
+        }}
+      />
     );
   }
 
   if (config === null) {
-    return (
-      <div className="config-spinner">
-        <div className="config-spinner__circle" />
-      </div>
-    );
+    return <FullScreenSpinner />;
   }
 
   return (

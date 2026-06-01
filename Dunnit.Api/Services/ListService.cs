@@ -44,8 +44,9 @@ public class ListService : IListService
             .Select(l => (double?)l.SortOrder)
             .MaxAsync(cancellationToken);
 
-
-        // Note: small chance of race condition if two lists are created at the same time, side effects are minimal and deemed acceptable for this app, so not implementing any locking or retry logic.
+        // NOTE: Two concurrent creates can land on the same SortOrder; we accept that
+        // because a tie just means an undefined ordering between the two new
+        // entries, which the user can fix by dragging and isn't likely a critical problem.
         var list = new TodoList
         {
             Id = Guid.NewGuid(),

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { UnauthorizedError, useApi } from '../auth/useApi';
+import { FullScreenSpinner } from '../ui/FullScreenSpinner';
+import { LoadFailedScreen } from '../ui/LoadFailedScreen';
 import type { User } from './userSlice';
 import { userError, userLoaded, userLoading } from './userSlice';
 
@@ -42,26 +44,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   if (state.status === 'error') {
     return (
-      <div className="config-error">
-        <h2>Failed to load user</h2>
-        <p className="config-error__message">{state.error}</p>
-        <button
-          type="button"
-          className="config-error__retry"
-          onClick={() => setAttempt((a) => a + 1)}
-        >
-          Retry
-        </button>
-      </div>
+      <LoadFailedScreen
+        title="Failed to load user"
+        message={state.error}
+        onRetry={() => setAttempt((a) => a + 1)}
+      />
     );
   }
 
   if (state.status !== 'loaded') {
-    return (
-      <div className="config-spinner">
-        <div className="config-spinner__circle" />
-      </div>
-    );
+    return <FullScreenSpinner />;
   }
 
   return <>{children}</>;

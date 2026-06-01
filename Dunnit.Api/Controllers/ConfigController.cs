@@ -17,7 +17,7 @@ public class ConfigController : ControllerBase
     }
 
     [HttpGet]
-    public ConfigResponse Get() => new(
+    public ConfigResponse Get() => new ConfigResponse(
         _configuration["TestValue"],
         _configuration["Env"],
         new Auth0Config(

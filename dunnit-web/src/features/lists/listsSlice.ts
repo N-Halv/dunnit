@@ -2,6 +2,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { components } from '../../api/schema';
+import { sortBySortOrder } from './sortOrder';
 
 export type ListEntity = components['schemas']['ListResponse'];
 
@@ -12,17 +13,6 @@ export type ListsState =
   | { status: 'error'; lists: []; error: string };
 
 const initialState: ListsState = { status: 'idle', lists: [], error: null };
-
-// Backend may serialize the double as a number or a string; normalize for sort.
-function toNumber(value: number | string): number {
-  return typeof value === 'number' ? value : parseFloat(value);
-}
-
-function sortBySortOrder(lists: ListEntity[]): ListEntity[] {
-  return [...lists].sort(
-    (a, b) => toNumber(a.sortOrder) - toNumber(b.sortOrder),
-  );
-}
 
 const listsSlice = createSlice({
   name: 'lists',
