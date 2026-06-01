@@ -5,7 +5,7 @@
 
 Make a list, add a todo item to the list and check it off when you've "dunnit".
 
-## Local setup
+## Local Quickstart
 
 You need: Node 20+, .NET 10 SDK.
 
@@ -70,15 +70,27 @@ dotnet test
 
 Each test gets a clean database (the base class resets tables before every test).
 
-## Backlog
+## Project State
 
-Some things we should build yet:
+This project is a near-production ready.
 
-- Real non-SQLite database for production
-- Periodic normalization of the `SortOrder` columns
-- Websockets for async updates
-- Don’t use cacheLocation="localstorage” for -Auth0Provider but instead use “memory”. Better defence against SSX.
-- `/health` endpoint
-- Don't show error details to user in the full screen error pages. Its not dangerous but we show more information than they need.
-- CI Pipeline
-- Frontend error reporting
+What its missing:
+
+- Better UX - I'd love to have a designer make this better. I think its pretty solid and intuitive but it could use someone who knows what they're doing to make it easier to use and prettier.
+- Our sort order tooling breaks after enough resorting because we are doing this floating point calculation that could get funky if we resort too much. I'd feel confortable deploying this though with a fast follows to make more robust.
+- Websockets - In a production environment I'd want to handle a multiple device or tab scenerio but I did not focus on this for time.
+- Use a real database - SQLite isn't a real database solution I'd want to use in production.
+- There is a XSS risk with our use of localhost to store out token. I made that decission because using the Auth0's silent refresh doesn't work with the development environemnt I have configured. If we had a production ready Auth0 environment I'd use it.
+- I'd want to show more deliberate frontend error messages. I didn't focus on this much, so I'm using mostly generic error messages.
+- CI/CD - We aren't actually deploying it anywhere so its.
+- A health check endpoint that we'd use for our deployment. We just didn't need one yet so I didn't build it.
+- Production ready logging - We aren't logging anything from the frontend and logs on the backend are just going to standard out. Since we aren't acutlly deploying this yet I didn't want to make fake decissions on how this would work.
+- Production ready observability - I'd deploy without APM but I wouldn't want to wait too long without it.
+- Frontend testing for very mission critical things. I leaned into backend testing because that's where security matters and taking care of data matters.
+
+### If I had one more day:
+
+If i had one mor day I would focus on
+
+- Fixing the `SortOrder` issue with periodic normalization of the `SortOrder` columns when something happens.
+- Websockets because the SortOrder fix isn't fully right unless we can push changes to the frontend.
