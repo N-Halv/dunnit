@@ -6,7 +6,6 @@ namespace Dunnit.Api.Controllers;
 
 [ApiController]
 [Route("config")]
-[AllowAnonymous]
 public class ConfigController : ControllerBase
 {
     private readonly IConfiguration _configuration;
@@ -17,6 +16,7 @@ public class ConfigController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public ConfigResponse Get() => new ConfigResponse(
         _configuration["TestValue"],
         _configuration["Env"],
