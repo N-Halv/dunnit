@@ -1,5 +1,6 @@
 using Dunnit.Api.Data;
 using Dunnit.Api.Exceptions;
+using Dunnit.Api.Middleware;
 using Dunnit.Api.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -79,6 +80,7 @@ app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 

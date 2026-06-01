@@ -61,3 +61,4 @@ dotnet ef migrations add <DescriptiveName>
 - Periodic normalization of the `SortOrder` columns
 - Websockets for async updates
 - Don’t use cacheLocation="localstorage” for -Auth0Provider but instead use “memory”. Better defence against SSX.
+- `/health` endpoint
