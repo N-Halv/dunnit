@@ -21,7 +21,7 @@ import {
   Skeleton,
   Typography,
 } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useConfirm } from '../ui/ConfirmContext';
 import { ListRow } from './ListRow';
@@ -30,6 +30,7 @@ import { useLists } from './useLists';
 
 export function ListsPane() {
   const { id: selectedListId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { state, createList, updateList, deleteList, reorderList } = useLists();
   const confirm = useConfirm();
 
@@ -94,7 +95,10 @@ export function ListsPane() {
                       destructive: true,
                     });
                     if (ok) {
-                      await deleteList(list.id).catch(() => {});
+                      await deleteList(list.id);
+                      if (list.id === selectedListId) {
+                        navigate('/');
+                      }
                     }
                   }}
                   onRename={(name) => updateList(list.id, name)}

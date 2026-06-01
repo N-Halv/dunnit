@@ -62,3 +62,5 @@ dotnet ef migrations add <DescriptiveName>
 - Websockets for async updates
 - Don’t use cacheLocation="localstorage” for -Auth0Provider but instead use “memory”. Better defence against SSX.
 - `/health` endpoint
+- Don't show error details to user in the full screen error pages. Its not dangerous but we show more information than they need.
+- CI Pipeline
