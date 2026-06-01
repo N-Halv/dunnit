@@ -55,6 +55,17 @@ cd Dunnit.Api
 dotnet ef migrations add <DescriptiveName>
 ```
 
+## Tests
+
+Backend integration tests live in `Dunnit.Api.Tests/`. They boot the real API via `WebApplicationFactory`, swap SQLite for an in-memory connection, and replace JWT auth with a test scheme that reads an email from the `X-Test-Email` header.
+
+```sh
+cd Dunnit.Api.Tests
+dotnet test
+```
+
+Each test gets a clean database (the base class resets tables before every test).
+
 ## Backlog
 
 - Real non-SQLite database for production
