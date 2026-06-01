@@ -28,7 +28,7 @@ public class ItemsController : ControllerBase
         {
             return NotFound();
         }
-        return Ok(items.Select(ToResponse));
+        return Ok(items.Select(ItemResponse.From));
     }
 
     [HttpPost]
@@ -43,7 +43,7 @@ public class ItemsController : ControllerBase
         {
             return NotFound();
         }
-        return CreatedAtAction(nameof(GetById), new { listId, itemId = item.Id }, ToResponse(item));
+        return CreatedAtAction(nameof(GetById), new { listId, itemId = item.Id }, ItemResponse.From(item));
     }
 
     [HttpGet("{itemId:guid}")]
@@ -58,7 +58,7 @@ public class ItemsController : ControllerBase
         {
             return NotFound();
         }
-        return ToResponse(item);
+        return ItemResponse.From(item);
     }
 
     [HttpPatch("{itemId:guid}")]
@@ -74,7 +74,7 @@ public class ItemsController : ControllerBase
         {
             return NotFound();
         }
-        return ToResponse(item);
+        return ItemResponse.From(item);
     }
 
     [HttpPatch("{itemId:guid}/position")]
@@ -88,7 +88,7 @@ public class ItemsController : ControllerBase
         var result = await _itemService.ReorderAsync(user.Id, listId, itemId, request.PrecedingItemId, cancellationToken);
         return result.Status switch
         {
-            ReorderStatus.Success => ToResponse(result.Value!),
+            ReorderStatus.Success => ItemResponse.From(result.Value!),
             ReorderStatus.NotFound => NotFound(),
             ReorderStatus.PrecedingNotFound => Problem(
                 detail: "The preceding item could not be found in this list.",
@@ -110,14 +110,4 @@ public class ItemsController : ControllerBase
         var deleted = await _itemService.SoftDeleteAsync(user.Id, listId, itemId, cancellationToken);
         return deleted ? NoContent() : NotFound();
     }
-
-    private static ItemResponse ToResponse(TodoItem item) => new(
-        item.Id,
-        item.ListId,
-        item.Title,
-        item.Description,
-        item.SortOrder,
-        item.CompletedAt is not null,
-        item.CreatedAt,
-        item.UpdatedAt);
 }

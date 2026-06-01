@@ -10,6 +10,5 @@ namespace Dunnit.Api.Controllers;
 public class UsersController : ControllerBase
 {
     [HttpGet("me")]
-    public UserResponse GetMe([CurrentUser] User user) =>
-        new UserResponse(user.Id, user.Email, user.CreatedAt, user.UpdatedAt);
+    public UserResponse GetMe([CurrentUser] User user) => UserResponse.From(user);
 }

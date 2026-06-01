@@ -23,7 +23,7 @@ public class ListsController : ControllerBase
         CancellationToken cancellationToken)
     {
         var lists = await _listService.GetForUserAsync(user.Id, cancellationToken);
-        return lists.Select(ToResponse);
+        return lists.Select(ListResponse.From);
     }
 
     [HttpPost]
@@ -33,7 +33,7 @@ public class ListsController : ControllerBase
         CancellationToken cancellationToken)
     {
         var list = await _listService.CreateAsync(user.Id, request.Name, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id = list.Id }, ToResponse(list));
+        return CreatedAtAction(nameof(GetById), new { id = list.Id }, ListResponse.From(list));
     }
 
     [HttpGet("{id:guid}")]
@@ -47,7 +47,7 @@ public class ListsController : ControllerBase
         {
             return NotFound();
         }
-        return ToResponse(list);
+        return ListResponse.From(list);
     }
 
     [HttpPatch("{id:guid}")]
@@ -62,7 +62,7 @@ public class ListsController : ControllerBase
         {
             return NotFound();
         }
-        return ToResponse(list);
+        return ListResponse.From(list);
     }
 
     [HttpPatch("{id:guid}/position")]
@@ -75,7 +75,7 @@ public class ListsController : ControllerBase
         var result = await _listService.ReorderAsync(user.Id, id, request.PrecedingListId, cancellationToken);
         return result.Status switch
         {
-            ReorderStatus.Success => ToResponse(result.Value!),
+            ReorderStatus.Success => ListResponse.From(result.Value!),
             ReorderStatus.NotFound => NotFound(),
             ReorderStatus.PrecedingNotFound => Problem(
                 detail: "The preceding list could not be found.",
@@ -96,12 +96,4 @@ public class ListsController : ControllerBase
         var deleted = await _listService.SoftDeleteAsync(user.Id, id, cancellationToken);
         return deleted ? NoContent() : NotFound();
     }
-
-    private static ListResponse ToResponse(TodoList list) => new(
-        list.Id,
-        list.CreatorUserId,
-        list.Name,
-        list.SortOrder,
-        list.CreatedAt,
-        list.UpdatedAt);
 }
