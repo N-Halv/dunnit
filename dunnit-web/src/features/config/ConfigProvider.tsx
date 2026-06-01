@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
-import { getApiPrefix } from '../../api/baseUrl';
 import { FullScreenSpinner } from '../ui/FullScreenSpinner';
 import { LoadFailedScreen } from '../ui/LoadFailedScreen';
 import type { Config } from './ConfigContext';
 import { ConfigContext } from './ConfigContext';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<Config | null>(null);
@@ -14,7 +15,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`${getApiPrefix()}/config`)
+    fetch(`${API_BASE_URL}/config`)
       .then((r) => {
         if (!r.ok) {
           throw new Error(`Config request failed: ${r.status} ${r.statusText}`);

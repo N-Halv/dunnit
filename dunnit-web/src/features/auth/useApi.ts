@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback } from 'react';
 
-import { getApiPrefix } from '../../api/baseUrl';
 import { useToast } from '../ui/ToastContext';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export class UnauthorizedError extends Error {
   constructor() {
@@ -72,7 +73,7 @@ export function useApi() {
       headers.set('Authorization', `Bearer ${token}`);
       let response: Response;
       try {
-        response = await fetch(`${getApiPrefix()}${path}`, {
+        response = await fetch(`${API_BASE_URL}${path}`, {
           ...init,
           headers,
         });

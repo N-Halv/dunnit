@@ -64,3 +64,4 @@ dotnet ef migrations add <DescriptiveName>
 - `/health` endpoint
 - Don't show error details to user in the full screen error pages. Its not dangerous but we show more information than they need.
 - CI Pipeline
+- Frontend error reporting
