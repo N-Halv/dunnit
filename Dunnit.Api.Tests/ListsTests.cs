@@ -218,6 +218,19 @@ public class ListsTests : IntegrationTestBase
     }
 
     [Fact]
+    public async Task Reorder_Of_Foreign_List_Returns_NotFound()
+    {
+        var aliceList = await CreateListAsync(AliceClient(), "alice");
+
+        var response = await BobClient().PatchAsJsonAsync(
+            $"/lists/{aliceList.Id}/position",
+            new UpdateListPositionRequest(null),
+            HttpJsonExtensions.JsonOptions);
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Create_With_Empty_Name_Returns_400()
     {
         var client = AliceClient();
@@ -238,6 +251,34 @@ public class ListsTests : IntegrationTestBase
         var response = await client.PostAsJsonAsync(
             "/lists",
             new CreateListRequest(new string('a', 201)),
+            HttpJsonExtensions.JsonOptions);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Update_With_Empty_Name_Returns_400()
+    {
+        var client = AliceClient();
+        var list = await CreateListAsync(client, "ok");
+
+        var response = await client.PatchAsJsonAsync(
+            $"/lists/{list.Id}",
+            new UpdateListRequest(""),
+            HttpJsonExtensions.JsonOptions);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Update_With_Too_Long_Name_Returns_400()
+    {
+        var client = AliceClient();
+        var list = await CreateListAsync(client, "ok");
+
+        var response = await client.PatchAsJsonAsync(
+            $"/lists/{list.Id}",
+            new UpdateListRequest(new string('a', 201)),
             HttpJsonExtensions.JsonOptions);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);

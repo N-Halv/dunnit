@@ -339,6 +339,20 @@ public class ItemsTests : IntegrationTestBase
     }
 
     [Fact]
+    public async Task Create_Item_TooLong_Title_Returns_400()
+    {
+        var client = AliceClient();
+        var list = await CreateListAsync(client, "L");
+
+        var response = await client.PostAsJsonAsync(
+            $"/lists/{list.Id}/items",
+            new CreateItemRequest(new string('t', 201), null),
+            HttpJsonExtensions.JsonOptions);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Create_Item_TooLong_Description_Returns_400()
     {
         var client = AliceClient();
@@ -347,6 +361,51 @@ public class ItemsTests : IntegrationTestBase
         var response = await client.PostAsJsonAsync(
             $"/lists/{list.Id}/items",
             new CreateItemRequest("ok", new string('x', 2001)),
+            HttpJsonExtensions.JsonOptions);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Update_Item_Empty_Title_Returns_400()
+    {
+        var client = AliceClient();
+        var list = await CreateListAsync(client, "L");
+        var item = await CreateItemAsync(client, list.Id, "ok");
+
+        var response = await client.PatchAsJsonAsync(
+            $"/lists/{list.Id}/items/{item.Id}",
+            new UpdateItemRequest("", null, false),
+            HttpJsonExtensions.JsonOptions);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Update_Item_TooLong_Title_Returns_400()
+    {
+        var client = AliceClient();
+        var list = await CreateListAsync(client, "L");
+        var item = await CreateItemAsync(client, list.Id, "ok");
+
+        var response = await client.PatchAsJsonAsync(
+            $"/lists/{list.Id}/items/{item.Id}",
+            new UpdateItemRequest(new string('t', 201), null, false),
+            HttpJsonExtensions.JsonOptions);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Update_Item_TooLong_Description_Returns_400()
+    {
+        var client = AliceClient();
+        var list = await CreateListAsync(client, "L");
+        var item = await CreateItemAsync(client, list.Id, "ok");
+
+        var response = await client.PatchAsJsonAsync(
+            $"/lists/{list.Id}/items/{item.Id}",
+            new UpdateItemRequest("ok", new string('x', 2001), false),
             HttpJsonExtensions.JsonOptions);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
