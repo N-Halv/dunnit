@@ -80,12 +80,15 @@ What its missing:
 - Our sort order tooling breaks after enough resorting because we are doing this floating point calculation that could get funky if we resort too much. I'd feel confortable deploying this though with a fast follows to make more robust.
 - Websockets - In a production environment I'd want to handle a multiple device or tab scenerio but I did not focus on this for time.
 - Use a real database - SQLite isn't a real database solution I'd want to use in production.
+- Cleaner front-end components. I'd love to make cleaner defaults for MUI components or even create our own component library to ensure consistant styling as we build more and add developers.
+- Better localization/language support - If I was really releasing this and wanted as many users as possible I wouldn't want to focus on just US english speakers.
 - There is a XSS risk with our use of localhost to store out token. I made that decission because using the Auth0's silent refresh doesn't work with the development environemnt I have configured. If we had a production ready Auth0 environment I'd use it.
 - I'd want to show more deliberate frontend error messages. I didn't focus on this much, so I'm using mostly generic error messages.
 - CI/CD - We aren't actually deploying it anywhere so its.
 - A health check endpoint that we'd use for our deployment. We just didn't need one yet so I didn't build it.
 - Production ready logging - We aren't logging anything from the frontend and logs on the backend are just going to standard out. Since we aren't acutlly deploying this yet I didn't want to make fake decissions on how this would work.
 - Production ready observability - I'd deploy without APM but I wouldn't want to wait too long without it.
+- More thoughtful testing - I leaned into AI based test writing in a way that I don't have a great grasp on how its set up, so if something goes wrong I won't know what to do as readily to fix it.
 - Frontend testing for very mission critical things. I leaned into backend testing because that's where security matters and taking care of data matters.
 
 ### If I had one more day:
